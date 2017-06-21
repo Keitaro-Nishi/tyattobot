@@ -1,5 +1,5 @@
 <?php
-//error_log("開始します");
+error_log("開始します");
 $accessToken = getenv('LINE_CHANNEL_ACCESS_TOKEN');
 
 
@@ -317,6 +317,28 @@ function makeOptions(){
 			CURLOPT_POSTFIELDS => json_encode($data),
 			CURLOPT_RETURNTRANSFER => true,
 	);
+}
+
+curl_setopt_array($curl, $options);
+$jsonString = curl_exec($curl);
+$json = json_decode($jsonString, true);
+
+$conversationId = $json["context"]["conversation_id"];
+$dialogNode = $json["context"]["system"]["dialog_stack"][0]["dialog_node"];
+
+$conversationData = array('conversation_id' => $conversationId, 'dialog_node' => $dialogNode);
+setLastConversationData($event->getUserId(), $conversationData);
+
+$outputText = $json['output']['text'][count($json['output']['text']) - 1];
+
+replyTextMessage($bot, $event->getReplyToken(), $outputText);
+
+function setLastConversationData($lastConversationData) {
+	$conversationId = $lastConversationData['conversation_id'];
+	$dialogNode = $lastConversationData['dialog_node'];
+}
+function getLastConversationData() {
+
 }
 
 function callWatson(){
