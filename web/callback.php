@@ -2,7 +2,6 @@
 error_log($conversation_id);
 $accessToken = getenv('LINE_CHANNEL_ACCESS_TOKEN');
 
-
 //ユーザーからのメッセージ取得
 $json_string = file_get_contents('php://input');
 $jsonObj = json_decode($json_string);
@@ -191,7 +190,7 @@ $json = json_decode($jsonString, true);
 $conversation_id = $json["context"]["conversation_id"];
 $userArray[$userID]["cid"] = $conversation_id;
 $userArray[$userID]["time"] = date('Y/m/d H:i:s');
-//$lastConversationData = ;
+$lastConversationData($event->getUserId(), $conversationData);
 
 $data["context"] = array("conversation_id" => $conversation_id,
       "system" => array("dialog_stack" => array(array("dialog_node" => "root")),
@@ -338,10 +337,18 @@ replyTextMessage($bot, $event->getReplyToken(), $outputText);
 function setLastConversationData($lastConversationData) {
 	$conversationId = $lastConversationData['conversation_id'];
 	$dialogNode = $lastConversationData['dialog_node'];
+
+	$fp = fopen("sample.txt", "a");
+	fwrite($fp, $conversationId, $dialogNode);
+	fclose($fp);
+
+
 }
 function getLastConversationData() {
-	 return $conversationId;
-	 return $dialogNode;
+	$fp = fopen("sample.txt", "r");
+		echo "conversationId";
+
+	fclose($fp);
 }
 
 function callWatson(){
