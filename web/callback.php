@@ -1,5 +1,5 @@
 <?php
-error_log("こんにちは");
+error_log($conversation_id);
 $accessToken = getenv('LINE_CHANNEL_ACCESS_TOKEN');
 
 
@@ -191,7 +191,7 @@ $json = json_decode($jsonString, true);
 $conversation_id = $json["context"]["conversation_id"];
 $userArray[$userID]["cid"] = $conversation_id;
 $userArray[$userID]["time"] = date('Y/m/d H:i:s');
-//$lastConversationData= getLastConversationData($event->getUserId());
+//$lastConversationData = ;
 
 $data["context"] = array("conversation_id" => $conversation_id,
       "system" => array("dialog_stack" => array(array("dialog_node" => "root")),
@@ -335,8 +335,6 @@ $outputText = $json['output']['text'][count($json['output']['text']) - 1];
 replyTextMessage($bot, $event->getReplyToken(), $outputText);
 
 //変更開始
-
-
 function setLastConversationData($lastConversationData) {
 	$conversationId = $lastConversationData['conversation_id'];
 	$dialogNode = $lastConversationData['dialog_node'];
