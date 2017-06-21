@@ -333,12 +333,16 @@ $outputText = $json['output']['text'][count($json['output']['text']) - 1];
 
 replyTextMessage($bot, $event->getReplyToken(), $outputText);
 
+//変更開始
+
+
 function setLastConversationData($lastConversationData) {
 	$conversationId = $lastConversationData['conversation_id'];
 	$dialogNode = $lastConversationData['dialog_node'];
 }
 function getLastConversationData() {
-
+	 return $conversationId;
+	 return $dialogNode;
 }
 
 function callWatson(){
