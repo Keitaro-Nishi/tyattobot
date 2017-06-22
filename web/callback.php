@@ -1,5 +1,5 @@
 <?php
-error_log ( $conversation_id );
+error_log ( conversation_id );
 $accessToken = getenv ( 'LINE_CHANNEL_ACCESS_TOKEN' );
 
 // ユーザーからのメッセージ取得
