@@ -353,14 +353,14 @@ function setLastConversationData($lastConversationData) {
 	$conversationId = $lastConversationData ['conversation_id'];
 	$dialogNode = $lastConversationData ['dialog_node'];
 */
-	$fp = fopen ("https://D:\Watson/sample.txt" , "w" );
-	fwrite ( $fp, conversationId, dialogNode );
+	$fp = fopen ("sample.txt" , "w" );
+	fwrite ( $fp, $conversationData );
 	fclose ( $fp );
 /*
  }
 function getLastConversationData() {*/
-	$fp = fopen ( "https://D:\Watson/sample.txt", "r" );
-	echo "conversationId", dialogNode;
+	$fp = fopen ( "sample.txt", "r" );
+	echo "$conversationData";
 	fclose ( $fp );
 /*
  * }
