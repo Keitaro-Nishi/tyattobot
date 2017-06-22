@@ -55,7 +55,7 @@ if ($eventType == "follow") {
 
 $fp = fopen("https://" . $_SERVER ['SERVER_NAME'] . "sample.txt", "r");
 while ($line = fgets($fp)) {
-	//echo "$line<br />";
+	echo "$line<br />";
 	error_log ( $line );
 }
 fclose($fp);
