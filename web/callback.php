@@ -192,7 +192,7 @@ $json = json_decode ( $jsonString, true );
 $conversation_id = $json ["context"] ["conversation_id"];
 $userArray [$userID] ["cid"] = $conversation_id;
 $userArray [$userID] ["time"] = date ( 'Y/m/d H:i:s' );
-$lastConversationData [];
+//$lastConversationData [];
 
 $data ["context"] = array (
 		"conversation_id" => $conversation_id,
