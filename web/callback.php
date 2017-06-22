@@ -1,30 +1,30 @@
 <?php
-error_log($conversation_id);
-$accessToken = getenv('LINE_CHANNEL_ACCESS_TOKEN');
+error_log ( $conversation_id );
+$accessToken = getenv ( 'LINE_CHANNEL_ACCESS_TOKEN' );
 
-//ユーザーからのメッセージ取得
-$json_string = file_get_contents('php://input');
-$jsonObj = json_decode($json_string);
+// ユーザーからのメッセージ取得
+$json_string = file_get_contents ( 'php://input' );
+$jsonObj = json_decode ( $json_string );
 
-$type = $jsonObj->{"events"}[0]->{"message"}->{"type"};
-$eventType = $jsonObj->{"events"}[0]->{"type"};
-//メッセージ取得
-$text = $jsonObj->{"events"}[0]->{"message"}->{"text"};
-//ReplyToken取得
-$replyToken = $jsonObj->{"events"}[0]->{"replyToken"};
-//ユーザーID取得
-$userID = $jsonObj->{"events"}[0]->{"source"}->{"userId"};
+$type = $jsonObj->{"events"} [0]->{"message"}->{"type"};
+$eventType = $jsonObj->{"events"} [0]->{"type"};
+// メッセージ取得
+$text = $jsonObj->{"events"} [0]->{"message"}->{"text"};
+// ReplyToken取得
+$replyToken = $jsonObj->{"events"} [0]->{"replyToken"};
+// ユーザーID取得
+$userID = $jsonObj->{"events"} [0]->{"source"}->{"userId"};
 
-error_log($eventType);
-if($eventType == "follow"){
+error_log ( $eventType );
+if ($eventType == "follow") {
 	$response_format_text = [
 			"type" => "template",
 			"altText" => "this is a buttons template",
 			"template" => [
 					"type" => "buttons",
-					"thumbnailImageUrl" => "https://" . $_SERVER['SERVER_NAME'] . "/gyosei.jpg",
+					"thumbnailImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg",
 					"title" => "行政市役所",
-					//"text" => "こんにちは。行政市のすいか太郎です。\n皆さんの質問にはりきってお答えしますよ～\nまずは、下のメニュータブをタップしてみてください",
+					// "text" => "こんにちは。行政市のすいか太郎です。\n皆さんの質問にはりきってお答えしますよ～\nまずは、下のメニュータブをタップしてみてください",
 					"text" => "こんにちは。\n行政市のすいか太郎です。\n皆さんの質問にはりきってお答えしますよ～",
 					"actions" => [
 							[
@@ -53,9 +53,9 @@ if($eventType == "follow"){
 	goto lineSend;
 }
 
-if($eventType == "postback"){
-	$bData = $jsonObj->{"events"}[0]->{"postback"}->{"data"};
-	if($bData== 'action=qaline') {
+if ($eventType == "postback") {
+	$bData = $jsonObj->{"events"} [0]->{"postback"}->{"data"};
+	if ($bData == 'action=qaline') {
 		$response_format_text = [
 				"type" => "text",
 				"text" => "それでは、質問をお願いします。"
@@ -63,7 +63,7 @@ if($eventType == "postback"){
 		goto lineSend;
 	}
 
-	if($bData== 'action=shomei') {
+	if ($bData == 'action=shomei') {
 		$response_format_text = [
 				"type" => "text",
 				"text" => "証明書についてはこちらをごらんください。"
@@ -71,7 +71,7 @@ if($eventType == "postback"){
 		goto lineSend;
 	}
 
-	if($bData== 'action=shisetsu') {
+	if ($bData == 'action=shisetsu') {
 		$response_format_text = [
 				"type" => "text",
 				"text" => "施設予約についてはこちらをごらんください。"
@@ -79,7 +79,7 @@ if($eventType == "postback"){
 		goto lineSend;
 	}
 
-	if($bData== 'action=riyo') {
+	if ($bData == 'action=riyo') {
 		$response_format_text = [
 				"type" => "text",
 				"text" => "ご利用方法についてはこちらをごらんください。"
@@ -87,7 +87,7 @@ if($eventType == "postback"){
 		goto lineSend;
 	}
 
-	if($bData== 'action=uc_1_1') {
+	if ($bData == 'action=uc_1_1') {
 		$response_format_text = [
 				"type" => "text",
 				"text" => "①○○地区、△△地区、□□地区ですね。\nその場合、最寄りの税務署は「行政第一税務署」になります。「行政第一税務署」の詳細はURLをご確認ください。\n他に質問はありますか？"
@@ -95,7 +95,7 @@ if($eventType == "postback"){
 		goto lineSend;
 	}
 
-	if($bData== 'action=uc_1_2') {
+	if ($bData == 'action=uc_1_2') {
 		$response_format_text = [
 				"type" => "text",
 				"text" => "②●●地区、▲▲地区、■■地区ですね。\nその場合、最寄りの税務署は「行政第二税務署」になります。「行政第二税務署」の詳細はURLをご確認ください。\n他に質問はありますか？"
@@ -103,7 +103,7 @@ if($eventType == "postback"){
 		goto lineSend;
 	}
 
-	if($bData== 'action=uc_1_3') {
+	if ($bData == 'action=uc_1_3') {
 		$response_format_text = [
 				"type" => "text",
 				"text" => "③Ａ地区、Ｂ地区、Ｃ地区ですね。\nその場合、最寄りの税務署は「行政第三税務署」になります。「行政第三税務署」の詳細はURLをご確認ください。\n他に質問はありますか？"
@@ -111,7 +111,7 @@ if($eventType == "postback"){
 		goto lineSend;
 	}
 
-	if($bData== 'action=uc_1_4') {
+	if ($bData == 'action=uc_1_4') {
 		$response_format_text = [
 				"type" => "text",
 				"text" => "④あ地区、い地区、う地区ですね。\nその場合、最寄りの税務署は「行政第四税務署」になります。「行政第四税務署」の詳細はURLをご確認ください。\n他に質問はありますか？"
@@ -119,7 +119,7 @@ if($eventType == "postback"){
 		goto lineSend;
 	}
 
-	if($bData== 'action=uc_2_1') {
+	if ($bData == 'action=uc_2_1') {
 		$response_format_text = [
 				"type" => "text",
 				"text" => "ありがとうございます。\n個人番号カードをお持ちでコンビニエンスストアでの証明書交付の利用申請がお済の方は、下記のコンビニエンスストアでも住民票の写しが取れますよ～\n\n・セブンイレブン\n・ローソン\n・ファミリーマート\n・サークルＫサンクス\n\nまた、コンビニエンスストアの証明交付サービスは、年末年始（12月29日～翌年1月3日）を除き、毎日6:30から23:00まで、ご利用いただけます。\n他に質問はありますか？"
@@ -127,7 +127,7 @@ if($eventType == "postback"){
 		goto lineSend;
 	}
 
-	if($bData== 'action=uc_2_2') {
+	if ($bData == 'action=uc_2_2') {
 		$response_format_text = [
 				"type" => "text",
 				"text" => "個人番号カードを持っていればコンビニで住民票が発行できて便利ですよ。\n他に質問はありますか？"
@@ -135,7 +135,7 @@ if($eventType == "postback"){
 		goto lineSend;
 	}
 
-	if($bData== 'action=uc_2_3') {
+	if ($bData == 'action=uc_2_3') {
 		$response_format_text = [
 				"type" => "text",
 				"text" => "もし、個人番号カードを持っていればコンビニで住民票が発行できて便利ですよ。\n他に質問はありますか？"
@@ -144,82 +144,92 @@ if($eventType == "postback"){
 	}
 }
 
-//メッセージ以外のときは何も返さず終了
-if($type != "text"){
-	exit;
+// メッセージ以外のときは何も返さず終了
+if ($type != "text") {
+	exit ();
 }
-
-
 
 $classfier = "12d0fcx34-nlc-410";
 $workspace_id = "766caa32-cd4c-4103-bb83-5719c9996ecc";
 
-//$url = "https://gateway.watson-j.jp/natural-language-classifier/api/v1/classifiers/".$classfier."/classify?text=".$text;
-//$url = "https://gateway.watson-j.jp/natural-language-classifier/api/v1/classifiers/".$classfier."/classify";
-$url = "https://gateway.watsonplatform.net/conversation/api/v1/workspaces/".$workspace_id."/message?version=2017-04-21";
+// $url = "https://gateway.watson-j.jp/natural-language-classifier/api/v1/classifiers/".$classfier."/classify?text=".$text;
+// $url = "https://gateway.watson-j.jp/natural-language-classifier/api/v1/classifiers/".$classfier."/classify";
+$url = "https://gateway.watsonplatform.net/conversation/api/v1/workspaces/" . $workspace_id . "/message?version=2017-04-21";
 
 $username = "e6ab6b4a-5e21-4649-9286-c6e20c60abc4";
 $password = "TyPTVSgRHbp5";
 
-//$data = array("text" => $text);
-$data = array('input' => array("text" => $text));
+// $data = array("text" => $text);
+$data = array (
+		'input' => array (
+				"text" => $text
+		)
+);
 /*
-$data["context"] = array("conversation_id" => "",
-      "system" => array("dialog_stack" => array(array("dialog_node" => "")),
-      "dialog_turn_counter" => 1,
-      "dialog_request_counter" => 1));
+ * $data["context"] = array("conversation_id" => "",
+ * "system" => array("dialog_stack" => array(array("dialog_node" => "")),
+ * "dialog_turn_counter" => 1,
+ * "dialog_request_counter" => 1));
+ *
+ * $curl = curl_init($url);
+ *
+ * $options = array(
+ * CURLOPT_HTTPHEADER => array(
+ * 'Content-Type: application/json',
+ * ),
+ * CURLOPT_USERPWD => $username . ':' . $password,
+ * CURLOPT_POST => true,
+ * CURLOPT_POSTFIELDS => json_encode($data),
+ * CURLOPT_RETURNTRANSFER => true,
+ * );
+ *
+ * curl_setopt_array($curl, $options);
+ * $jsonString = curl_exec($curl);
+ */
+$jsonString = callWatson ();
+$json = json_decode ( $jsonString, true );
 
-$curl = curl_init($url);
+$conversation_id = $json ["context"] ["conversation_id"];
+$userArray [$userID] ["cid"] = $conversation_id;
+$userArray [$userID] ["time"] = date ( 'Y/m/d H:i:s' );
+$lastConversationData [];
 
-$options = array(
-    CURLOPT_HTTPHEADER => array(
-     'Content-Type: application/json',
-    ),
-    CURLOPT_USERPWD => $username . ':' . $password,
-    CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => json_encode($data),
-    CURLOPT_RETURNTRANSFER => true,
+$data ["context"] = array (
+		"conversation_id" => $conversation_id,
+		"system" => array (
+				"dialog_stack" => array (
+						array (
+								"dialog_node" => "root"
+						)
+				),
+				"dialog_turn_counter" => 1,
+				"dialog_request_counter" => 1
+		)
 );
 
-curl_setopt_array($curl, $options);
-$jsonString = curl_exec($curl);
-*/
-$jsonString = callWatson();
-$json = json_decode($jsonString, true);
-
-$conversation_id = $json["context"]["conversation_id"];
-$userArray[$userID]["cid"] = $conversation_id;
-$userArray[$userID]["time"] = date('Y/m/d H:i:s');
-$lastConversationData($event->getUserId(), $conversationData);
-
-$data["context"] = array("conversation_id" => $conversation_id,
-      "system" => array("dialog_stack" => array(array("dialog_node" => "root")),
-      "dialog_turn_counter" => 1,
-      "dialog_request_counter" => 1));
-
 /*
-$curl = curl_init($url);
-$options = array(
-    CURLOPT_HTTPHEADER => array(
-     'Content-Type: application/json',
-    ),
-    CURLOPT_USERPWD => $username . ':' . $password,
-    CURLOPT_POST => true,
-    CURLOPT_POSTFIELDS => json_encode($data),
-    CURLOPT_RETURNTRANSFER => true,
-);
+ * $curl = curl_init($url);
+ * $options = array(
+ * CURLOPT_HTTPHEADER => array(
+ * 'Content-Type: application/json',
+ * ),
+ * CURLOPT_USERPWD => $username . ':' . $password,
+ * CURLOPT_POST => true,
+ * CURLOPT_POSTFIELDS => json_encode($data),
+ * CURLOPT_RETURNTRANSFER => true,
+ * );
+ *
+ * curl_setopt_array($curl, $options);
+ * $jsonString = curl_exec($curl);
+ */
+$jsonString = callWatson ();
+// error_log($jsonString);
+$json = json_decode ( $jsonString, true );
 
-curl_setopt_array($curl, $options);
-$jsonString = curl_exec($curl);
-*/
-$jsonString = callWatson();
-//error_log($jsonString);
-$json = json_decode($jsonString, true);
+$mes = $json ["output"] ["text"] [0];
+// $mes = $json["output"];
 
-$mes = $json["output"]["text"][0];
-//$mes = $json["output"];
-
-if($mes == "usrChoise_1"){
+if ($mes == "usrChoise_1") {
 	$response_format_text = [
 			"type" => "template",
 			"altText" => "this is a buttons template",
@@ -253,7 +263,7 @@ if($mes == "usrChoise_1"){
 	goto lineSend;
 }
 
-if($mes == "usrChoise_2"){
+if ($mes == "usrChoise_2") {
 	$response_format_text = [
 			"type" => "template",
 			"altText" => "this is a buttons template",
@@ -283,88 +293,90 @@ if($mes == "usrChoise_2"){
 }
 
 $response_format_text = [
-    "type" => "text",
-    "text" => $mes
+		"type" => "text",
+		"text" => $mes
 ];
 
 lineSend:
-error_log($response_format_text);
+error_log ( $response_format_text );
 $post_data = [
-	"replyToken" => $replyToken,
-	"messages" => [$response_format_text]
-	];
+		"replyToken" => $replyToken,
+		"messages" => [
+				$response_format_text
+		]
+];
 
-$ch = curl_init("https://api.line.me/v2/bot/message/reply");
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
-curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    'Content-Type: application/json; charser=UTF-8',
-    'Authorization: Bearer ' . $accessToken
-    ));
-$result = curl_exec($ch);
-curl_close($ch);
-
-function makeOptions(){
+$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" );
+curl_setopt ( $ch, CURLOPT_POST, true );
+curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'POST' );
+curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+curl_setopt ( $ch, CURLOPT_POSTFIELDS, json_encode ( $post_data ) );
+curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
+		'Content-Type: application/json; charser=UTF-8',
+		'Authorization: Bearer ' . $accessToken
+) );
+$result = curl_exec ( $ch );
+curl_close ( $ch );
+function makeOptions() {
 	global $username, $password, $data;
-	return array(
-			CURLOPT_HTTPHEADER => array(
-					'Content-Type: application/json',
+	return array (
+			CURLOPT_HTTPHEADER => array (
+					'Content-Type: application/json'
 			),
 			CURLOPT_USERPWD => $username . ':' . $password,
 			CURLOPT_POST => true,
-			CURLOPT_POSTFIELDS => json_encode($data),
-			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_POSTFIELDS => json_encode ( $data ),
+			CURLOPT_RETURNTRANSFER => true
 	);
 }
 
-curl_setopt_array($curl, $options);
-$jsonString = curl_exec($curl);
-$json = json_decode($jsonString, true);
+curl_setopt_array ( $curl, $options );
+$jsonString = curl_exec ( $curl );
+$json = json_decode ( $jsonString, true );
 
-$conversationId = $json["context"]["conversation_id"];
-$dialogNode = $json["context"]["system"]["dialog_stack"][0]["dialog_node"];
+$conversationId = $json ["context"] ["conversation_id"];
+$dialogNode = $json ["context"] ["system"] ["dialog_stack"] [0] ["dialog_node"];
 
-$conversationData = array('conversation_id' => $conversationId, 'dialog_node' => $dialogNode);
-setLastConversationData($event->getUserId(), $conversationData);
+$conversationData = array (
+		'conversation_id' => $conversationId,
+		'dialog_node' => $dialogNode
+);
+setLastConversationData ( $event->getUserId (), $conversationData );
 
-$outputText = $json['output']['text'][count($json['output']['text']) - 1];
+$outputText = $json ['output'] ['text'] [count ( $json ['output'] ['text'] ) - 1];
 
-replyTextMessage($bot, $event->getReplyToken(), $outputText);
+replyTextMessage ( $bot, $event->getReplyToken (), $outputText );
 
-//変更開始
+// 変更開始
+/*
 function setLastConversationData($lastConversationData) {
-	$conversationId = $lastConversationData['conversation_id'];
-	$dialogNode = $lastConversationData['dialog_node'];
+	$conversationId = $lastConversationData ['conversation_id'];
+	$dialogNode = $lastConversationData ['dialog_node'];
 
-	$fp = fopen("sample.txt", "a");
-	fwrite($fp, $conversationId, $dialogNode);
-	fclose($fp);
-
-
+	$fp = fopen ( "sample.txt", "w" );
+	fwrite ( $fp, $conversationId, $dialogNode );
+	fclose ( $fp );
 }
 function getLastConversationData() {
-	$fp = fopen("sample.txt", "r");
-		echo "conversationId";
-
-	fclose($fp);
+	$fp = fopen ( "sample.txt", "r" );
+	echo "$conversationId";
+	fclose ( $fp );
 }
-
-function callWatson(){
+*/
+function callWatson() {
 	global $curl, $url, $username, $password, $data, $options;
-	$curl = curl_init($url);
+	$curl = curl_init ( $url );
 
-	$options = array(
-			CURLOPT_HTTPHEADER => array(
-					'Content-Type: application/json',
+	$options = array (
+			CURLOPT_HTTPHEADER => array (
+					'Content-Type: application/json'
 			),
 			CURLOPT_USERPWD => $username . ':' . $password,
 			CURLOPT_POST => true,
-			CURLOPT_POSTFIELDS => json_encode($data),
-			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_POSTFIELDS => json_encode ( $data ),
+			CURLOPT_RETURNTRANSFER => true
 	);
 
-	curl_setopt_array($curl, $options);
-	return curl_exec($curl);
+	curl_setopt_array ( $curl, $options );
+	return curl_exec ( $curl );
 }
