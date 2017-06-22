@@ -1,5 +1,5 @@
 <?php
-error_log ( conversation_id );
+error_log ("開始します");
 $accessToken = getenv ( 'LINE_CHANNEL_ACCESS_TOKEN' );
 
 // ユーザーからのメッセージ取得
@@ -52,6 +52,13 @@ if ($eventType == "follow") {
 	];
 	goto lineSend;
 }
+
+$fp = fopen("https://" . $_SERVER ['SERVER_NAME'] . "sample.txt", "r");
+while ($line = fgets($fp)) {
+	echo "$line<br />";
+
+}
+fclose($fp);
 
 if ($eventType == "postback") {
 	$bData = $jsonObj->{"events"} [0]->{"postback"}->{"data"};
