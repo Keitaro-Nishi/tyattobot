@@ -353,13 +353,13 @@ function setLastConversationData($lastConversationData) {
 	$conversationId = $lastConversationData ['conversation_id'];
 	$dialogNode = $lastConversationData ['dialog_node'];
 */
-	$fp = fopen ("sample.txt" , "w" );
+	$fp = fopen ("D:\Watson\sample.txt" , "w" );
 	fwrite ( $fp, $conversationId, $dialogNode );
 	fclose ( $fp );
 /*
  }
 function getLastConversationData() {*/
-	$fp = fopen ( "sample.txt", "r" );
+	$fp = fopen ( "D:\Watson\sample.txt", "r" );
 	echo "$conversationId", $dialogNode;
 	fclose ( $fp );
 /*
