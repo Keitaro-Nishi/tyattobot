@@ -352,16 +352,18 @@ replyTextMessage ( $bot, $event->getReplyToken (), $outputText );
 function setLastConversationData($lastConversationData) {
 	$conversationId = $lastConversationData ['conversation_id'];
 	$dialogNode = $lastConversationData ['dialog_node'];
-
-	$fp = fopen ( "sample.txt", "w" );
+*/
+	$fp = fopen ("sample.txt" , "w" );
 	fwrite ( $fp, $conversationId, $dialogNode );
 	fclose ( $fp );
-}
-function getLastConversationData() {
+/*
+ }
+function getLastConversationData() {*/
 	$fp = fopen ( "sample.txt", "r" );
-	echo "$conversationId";
+	echo "$conversationId", $dialogNode;
 	fclose ( $fp );
-}
+/*
+ * }
 */
 function callWatson() {
 	global $curl, $url, $username, $password, $data, $options;
