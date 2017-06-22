@@ -1,5 +1,5 @@
 <?php
-error_log ("開始します");
+error_log ();
 $accessToken = getenv ( 'LINE_CHANNEL_ACCESS_TOKEN' );
 
 // ユーザーからのメッセージ取得
@@ -53,7 +53,7 @@ if ($eventType == "follow") {
 	goto lineSend;
 }
 
-$fp = fopen("https://" . $_SERVER ['SERVER_NAME'] . "sample.txt", "r");
+$fp = fopen("https://" . $_SERVER ['SERVER_NAME'] . "/sample.txt", "r");
 while ($line = fgets($fp)) {
 	echo "$line<br />";
 	error_log ( $line );
