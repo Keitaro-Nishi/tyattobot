@@ -1,5 +1,5 @@
 <?php
-error_log ();
+error_log ( $conversation_id );
 $accessToken = getenv ( 'LINE_CHANNEL_ACCESS_TOKEN' );
 
 // ユーザーからのメッセージ取得
@@ -52,13 +52,6 @@ if ($eventType == "follow") {
 	];
 	goto lineSend;
 }
-
-$fp = fopen("https://" . $_SERVER ['SERVER_NAME'] . "/sample.txt", "r");
-while ($line = fgets($fp)) {
-	echo "$line<br />";
-	error_log ( $line );
-}
-fclose($fp);
 
 if ($eventType == "postback") {
 	$bData = $jsonObj->{"events"} [0]->{"postback"}->{"data"};
@@ -354,24 +347,6 @@ $outputText = $json ['output'] ['text'] [count ( $json ['output'] ['text'] ) - 1
 
 replyTextMessage ( $bot, $event->getReplyToken (), $outputText );
 
-// 変更開始
-/*
-function setLastConversationData($lastConversationData) {
-	$conversationId = $lastConversationData ['conversation_id'];
-	$dialogNode = $lastConversationData ['dialog_node'];
-*/
-	$fp = fopen ("sample.txt" , "w" );
-	fwrite ( $fp, $conversationData );
-	fclose ( $fp );
-/*
- }
-function getLastConversationData() {*/
-	$fp = fopen ( "sample.txt", "r" );
-	echo "$conversationData";
-	fclose ( $fp );
-/*
- * }
-*/
 function callWatson() {
 	global $curl, $url, $username, $password, $data, $options;
 	$curl = curl_init ( $url );
