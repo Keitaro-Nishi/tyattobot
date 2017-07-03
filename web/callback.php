@@ -1,5 +1,5 @@
 <?php
-error_log ( $conversation_id );
+// error_log ( $conversation_id );
 $accessToken = getenv ( 'LINE_CHANNEL_ACCESS_TOKEN' );
 
 // ユーザーからのメッセージ取得
@@ -192,14 +192,37 @@ $json = json_decode ( $jsonString, true );
 $conversation_id = $json ["context"] ["conversation_id"];
 $userArray [$userID] ["cid"] = $conversation_id;
 $userArray [$userID] ["time"] = date ( 'Y/m/d H:i:s' );
-//$lastConversationData [];
+// $lastConversationData [];
+
+// データベースへの接続
+$conn = "host=ec2-54-83-26-65.compute-1.amazonaws.com dbname=d9pf8qthde7brb user=gopasxxhdasfak
+ password=ab14f9f8cbd407f8e7c7c99d3d03ac82f3c35b9d7a141615a563adeb2dd964f4";
+$link = pg_connect ( $conn );
+if (! $link) {
+	error_log ( 接続に失敗 );
+} else {
+	error_log ( 接続に成功 );
+}
+
+// cvsdataテーブルからデータの取得
+$result = pg_query ( 'SELECT dnode FROM cvsdata' );
+
+if (! $result) {
+	die ( 'クエリーが失敗しました。' . pg_last_error () );
+}
+
+$rows = pg_fetch_array ( $result, NULL, PGSQL_ASSOC );
+error_log ( $rows [dnode] );
+
+// データベースの切断
+pg_close ( $conn );
 
 $data ["context"] = array (
 		"conversation_id" => $conversation_id,
 		"system" => array (
 				"dialog_stack" => array (
 						array (
-								"dialog_node" => "root"
+								"dialog_node" => $rows [dnode]
 						)
 				),
 				"dialog_turn_counter" => 1,
@@ -306,6 +329,38 @@ $post_data = [
 		]
 ];
 
+// データベースへの接続
+$conn = "host=ec2-54-83-26-65.compute-1.amazonaws.com dbname=d9pf8qthde7brb user=gopasxxhdasfak
+ password=ab14f9f8cbd407f8e7c7c99d3d03ac82f3c35b9d7a141615a563adeb2dd964f4";
+$link = pg_connect ( $conn );
+if (! $link) {
+	error_log ( '337接続に失敗' );
+} else {
+	error_log ( '339接続に成功' );
+}
+
+error_log ( $userID );
+error_log ( $text );
+error_log ( $mes );
+
+// botlog テーブルへのデータ登録
+$sql = "INSERT INTO botlog (userid, contents, return) VALUES ('$userID', '$text', '$mes')";
+$result_flag = pg_query ( $sql );
+
+// botlog テーブルからのデータの取得
+$result = pg_query ( 'SELECT time, userid, contents FROM botlog ORDER BY no DESC LIMIT 1' );
+
+if (! $result) {
+	die ( 'クエリーが失敗しました。' . pg_last_error () );
+}
+$rows = pg_fetch_array ( $result, NULL, PGSQL_ASSOC );
+error_log ( $rows ['time'] );
+error_log ( $rows ['userid'] );
+error_log ( $rows ['contents'] );
+
+// データベースの切断
+pg_close ( $conn );
+
 $ch = curl_init ( "https://api.line.me/v2/bot/message/reply" );
 curl_setopt ( $ch, CURLOPT_POST, true );
 curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'POST' );
@@ -336,17 +391,62 @@ $json = json_decode ( $jsonString, true );
 
 $conversationId = $json ["context"] ["conversation_id"];
 $dialogNode = $json ["context"] ["system"] ["dialog_stack"] [0] ["dialog_node"];
+error_log ( $dialogNode );
+// データベースへの接続
+$conn = "host=ec2-54-83-26-65.compute-1.amazonaws.com dbname=d9pf8qthde7brb user=gopasxxhdasfak
+ password=ab14f9f8cbd407f8e7c7c99d3d03ac82f3c35b9d7a141615a563adeb2dd964f4";
+$link = pg_connect ( $conn );
+if (! $link) {
+	error_log ( '403 接続に失敗' );
+} else {
+	error_log ( '405 接続に成功' );
+}
 
-$conversationData = array (
-		'conversation_id' => $conversationId,
-		'dialog_node' => $dialogNode
-);
-setLastConversationData ( $event->getUserId (), $conversationData );
+// cvsdataテーブルでデータ変更
 
-$outputText = $json ['output'] ['text'] [count ( $json ['output'] ['text'] ) - 1];
+$result = pg_query ( "SELECT * FROM cvsdata WHERE userid = '$userID'" );
+$rows = pg_fetch_array ( $result, NULL, PGSQL_ASSOC );
+error_log ( '413' );
+error_log ( $rows [userid] );
+error_log ( '415' );
+error_log ( $userID );
 
-replyTextMessage ( $bot, $event->getReplyToken (), $outputText );
+/*UPDATE cvsdata SET conversationid = $conversationId, dnode = $dialogNode WHERE userid = $userID;
+INSERT INTO cvsdata (userid, conversationid, dnode)
+       SELECT $userID , '$conversationId', '$dialogNode'
+       		WHERE NOT EXISTS (SELECT 1 FROM cvsdata WHERE userid = '$userID');
+*/
+if (!$rows[userid]==null) {
+	$sql = sprintf ( "UPDATE cvsdata SET  conversationid = '$conversationId', dnode = '$dialogNode' WHERE userid = '$userID'"
+			, pg_escape_string ( $conversationId, $dialogNode ) );
+	$result_flag = pg_query ( $sql );
 
+} else {
+	$sql = "INSERT INTO cvsdata (userid, conversationid, dnode) VALUES ('$userID', '$conversationId', '$dialogNode')";
+	$result_flag = pg_query ( $sql );
+}
+
+
+// $sql = "INSERT INTO cvsdata (userid, conversationid, dnode) VALUES ('$userID', '$conversationId', 'root')";
+// $result_flag = pg_query ( $sql );
+// $sql = sprintf ( "UPDATE cvsdata SET userid = '$userID' , conversationid = '$conversationId', dnode = '$dialogNode'"
+// , pg_escape_string ( $userID, $conversationId, $dialogNode ) );
+// $result_flag = pg_query ( $sql );
+
+// データベースの切断
+pg_close ( $conn );
+
+/*
+ * $conversationData = array (
+ * 'conversation_id' => $conversationId,
+ * 'dialog_node' => $dialogNode
+ * );
+ * setLastConversationData ( $event->getUserId (), $conversationData );
+ *
+ * $outputText = $json ['output'] ['text'] [count ( $json ['output'] ['text'] ) - 1];
+ *
+ * replyTextMessage ( $bot, $event->getReplyToken (), $outputText );
+ */
 function callWatson() {
 	global $curl, $url, $username, $password, $data, $options;
 	$curl = curl_init ( $url );
