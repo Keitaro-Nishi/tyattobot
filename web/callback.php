@@ -391,6 +391,7 @@ $json = json_decode ( $jsonString, true );
 
 $conversationId = $json ["context"] ["conversation_id"];
 $dialogNode = $json ["context"] ["system"] ["dialog_stack"] [0] ["dialog_node"];
+error_log ( '395' );
 error_log ( $dialogNode );
 // データベースへの接続
 $conn = "host=ec2-54-83-26-65.compute-1.amazonaws.com dbname=d9pf8qthde7brb user=gopasxxhdasfak
