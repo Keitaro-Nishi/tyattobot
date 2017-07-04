@@ -1,3 +1,4 @@
+
 <?php
 // error_log ( $conversation_id );
 $accessToken = getenv ( 'LINE_CHANNEL_ACCESS_TOKEN' );
@@ -199,9 +200,9 @@ $conn = "host=ec2-54-83-26-65.compute-1.amazonaws.com dbname=d9pf8qthde7brb user
  password=ab14f9f8cbd407f8e7c7c99d3d03ac82f3c35b9d7a141615a563adeb2dd964f4";
 $link = pg_connect ( $conn );
 if (! $link) {
-	error_log ( 接続に失敗 );
+	error_log ( '202接続に失敗' );
 } else {
-	error_log ( 接続に成功 );
+	error_log ( '204接続に成功' );
 }
 
 // cvsdataテーブルからデータの取得
@@ -243,23 +244,14 @@ if ( $rows[dnode] == null) {
 
 
 error_log(245);
-error_log( dialog_node );
+error_log("dialog_node");
+
+
 
 // データベースの切断
 pg_close ( $conn );
 
-$data ["context"] = array (
-		"conversation_id" => $conversation_id,
-		"system" => array (
-				"dialog_stack" => array (
-						array (
-								"dialog_node" => $rows [dnode]
-						)
-				),
-				"dialog_turn_counter" => 1,
-				"dialog_request_counter" => 1
-		)
-);
+
 
 /*
  * $curl = curl_init($url);
@@ -365,9 +357,9 @@ $conn = "host=ec2-54-83-26-65.compute-1.amazonaws.com dbname=d9pf8qthde7brb user
  password=ab14f9f8cbd407f8e7c7c99d3d03ac82f3c35b9d7a141615a563adeb2dd964f4";
 $link = pg_connect ( $conn );
 if (! $link) {
-	error_log ( '337接続に失敗' );
+	error_log ( '344接続に失敗' );
 } else {
-	error_log ( '339接続に成功' );
+	error_log ( '346接続に成功' );
 }
 
 error_log ( $userID );
@@ -422,46 +414,33 @@ $json = json_decode ( $jsonString, true );
 
 $conversationId = $json ["context"] ["conversation_id"];
 $dialogNode = $json ["context"] ["system"] ["dialog_stack"] [0] ["dialog_node"];
-error_log ( '395' );
 error_log ( $dialogNode );
 // データベースへの接続
 $conn = "host=ec2-54-83-26-65.compute-1.amazonaws.com dbname=d9pf8qthde7brb user=gopasxxhdasfak
  password=ab14f9f8cbd407f8e7c7c99d3d03ac82f3c35b9d7a141615a563adeb2dd964f4";
 $link = pg_connect ( $conn );
 if (! $link) {
-	error_log ( '接続に失敗' );
+	error_log ( '407接続に失敗' );
 } else {
-	error_log ( '接続に成功' );
+	error_log ( '409接続に成功' );
 }
 
 // cvsdataテーブルでデータ変更
 
 $result = pg_query ( "SELECT * FROM cvsdata WHERE userid = '$userID'" );
 $rows = pg_fetch_array ( $result, NULL, PGSQL_ASSOC );
-error_log ( '413' );
 error_log ( $rows [userid] );
-error_log ( '415' );
 error_log ( $userID );
 
-/*
- * UPDATE cvsdata SET conversationid = $conversationId, dnode = $dialogNode WHERE userid = $userID;
- * INSERT INTO cvsdata (userid, conversationid, dnode)
- * SELECT $userID , '$conversationId', '$dialogNode'
- * WHERE NOT EXISTS (SELECT 1 FROM cvsdata WHERE userid = '$userID');
- */
-if (! $rows [userid] == null) {
-	$sql = sprintf ( "UPDATE cvsdata SET conversationid = '$conversationId', dnode = '$dialogNode' WHERE userid = '$userID'", pg_escape_string ( $conversationId, $dialogNode ) );
+if (!$rows[userid]==null) {
+	$sql = sprintf ( "UPDATE cvsdata SET  conversationid = '$conversationId', dnode = '$dialogNode' WHERE userid = '$userID'"
+			, pg_escape_string ( $conversationId, $dialogNode ) );
 	$result_flag = pg_query ( $sql );
+
 } else {
 	$sql = "INSERT INTO cvsdata (userid, conversationid, dnode) VALUES ('$userID', '$conversationId', '$dialogNode')";
 	$result_flag = pg_query ( $sql );
 }
-
-// $sql = "INSERT INTO cvsdata (userid, conversationid, dnode) VALUES ('$userID', '$conversationId', 'root')";
-// $result_flag = pg_query ( $sql );
-// $sql = sprintf ( "UPDATE cvsdata SET userid = '$userID' , conversationid = '$conversationId', dnode = '$dialogNode'"
-// , pg_escape_string ( $userID, $conversationId, $dialogNode ) );
-// $result_flag = pg_query ( $sql );
 
 // データベースの切断
 pg_close ( $conn );
