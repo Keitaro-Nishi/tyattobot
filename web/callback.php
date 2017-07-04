@@ -205,14 +205,45 @@ if (! $link) {
 }
 
 // cvsdataテーブルからデータの取得
-$result = pg_query ( 'SELECT dnode FROM cvsdata' );
+$result = pg_query ( "SELECT dnode FROM cvsdata WHERE userid = '$userID'");
+$rows = pg_fetch_array ( $result, NULL, PGSQL_ASSOC );
 
-if (! $result) {
-	die ( 'クエリーが失敗しました。' . pg_last_error () );
+
+
+if ( $rows[dnode] == null) {
+	error_log(214);
+
+	$data ["context"] = array (
+			"conversation_id" => $conversation_id,
+			"system" => array (
+					"dialog_stack" => array (
+							array (
+									"dialog_node" => 'root'
+							)
+					),
+					"dialog_turn_counter" => 1,
+					"dialog_request_counter" => 1
+			)
+	);
+
+}else{
+	$data ["context"] = array (
+			"conversation_id" => $conversation_id,
+			"system" => array (
+					"dialog_stack" => array (
+							array (
+									"dialog_node" => $rows [dnode]
+							)
+					),
+					"dialog_turn_counter" => 1,
+					"dialog_request_counter" => 1
+			)
+	);
 }
 
-$rows = pg_fetch_array ( $result, NULL, PGSQL_ASSOC );
-error_log ( $rows [dnode] );
+
+error_log(245);
+error_log( dialog_node );
 
 // データベースの切断
 pg_close ( $conn );
@@ -412,21 +443,19 @@ error_log ( $rows [userid] );
 error_log ( '415' );
 error_log ( $userID );
 
-/*UPDATE cvsdata SET conversationid = $conversationId, dnode = $dialogNode WHERE userid = $userID;
-INSERT INTO cvsdata (userid, conversationid, dnode)
-       SELECT $userID , '$conversationId', '$dialogNode'
-       		WHERE NOT EXISTS (SELECT 1 FROM cvsdata WHERE userid = '$userID');
-*/
-if (!$rows[userid]==null) {
-	$sql = sprintf ( "UPDATE cvsdata SET conversationid = '$conversationId', dnode = '$dialogNode' WHERE userid = '$userID'"
-			, pg_escape_string ( $conversationId, $dialogNode ) );
+/*
+ * UPDATE cvsdata SET conversationid = $conversationId, dnode = $dialogNode WHERE userid = $userID;
+ * INSERT INTO cvsdata (userid, conversationid, dnode)
+ * SELECT $userID , '$conversationId', '$dialogNode'
+ * WHERE NOT EXISTS (SELECT 1 FROM cvsdata WHERE userid = '$userID');
+ */
+if (! $rows [userid] == null) {
+	$sql = sprintf ( "UPDATE cvsdata SET conversationid = '$conversationId', dnode = '$dialogNode' WHERE userid = '$userID'", pg_escape_string ( $conversationId, $dialogNode ) );
 	$result_flag = pg_query ( $sql );
-
 } else {
 	$sql = "INSERT INTO cvsdata (userid, conversationid, dnode) VALUES ('$userID', '$conversationId', '$dialogNode')";
 	$result_flag = pg_query ( $sql );
 }
-
 
 // $sql = "INSERT INTO cvsdata (userid, conversationid, dnode) VALUES ('$userID', '$conversationId', 'root')";
 // $result_flag = pg_query ( $sql );
