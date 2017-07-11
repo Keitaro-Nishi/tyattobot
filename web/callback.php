@@ -20,8 +20,6 @@ $userID = $jsonObj->{"events"} [0]->{"source"}->{"userId"};
 
 // 画像
 $json_string = file_get_contents ( 'php://input' );
-$jsonObj = json_decode ( $json_string );
-
 $messageId = $jsonObj->{"events"} [0]->{"message"}->{"id"};
 
 error_log ( $eventType );
@@ -170,6 +168,16 @@ if ($type != "text") {
 	) );
 	$result = curl_exec ( $ch );
 	curl_close ( $ch );
+
+	$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('<channel access token>');
+	$bot = new \LINE\LINEBot($httpClient, ['<channelSecret>' => '<channel secret>']);
+	$response = $bot->getMessageContent('<messageId>');
+	if ($response->isSucceeded()) {
+		$tempfile = tmpfile();
+		fwrite($tempfile, $response->getRawBody());
+	} else {
+		error_log($response->getHTTPStatus() . ' ' . $response->getRawBody());
+	}
 
 	// 画像ファイルの作成
 	$fp = fopen ( 'test.jpg', 'wb' );
