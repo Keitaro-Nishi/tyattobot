@@ -201,6 +201,8 @@ if ($type = "image") {
 			]
 	];
 
+	error_log ($post_data);
+
 	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" );
 	curl_setopt ( $ch, CURLOPT_POST, true );
 	curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'POST' );
