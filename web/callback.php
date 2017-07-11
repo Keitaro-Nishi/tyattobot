@@ -11,6 +11,8 @@ $type = $jsonObj->{"events"} [0]->{"message"}->{"type"};
 $eventType = $jsonObj->{"events"} [0]->{"type"};
 // メッセージ取得
 $text = $jsonObj->{"events"} [0]->{"message"}->{"text"};
+//画像取得
+$image = $jsonObj->{"events"} [0]->{"message"}->{"image"};
 // ReplyToken取得
 $replyToken = $jsonObj->{"events"} [0]->{"replyToken"};
 // ユーザーID取得
