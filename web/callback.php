@@ -170,7 +170,7 @@ if ($type = "image") {
 	curl_close($ch);
 
 	//画像ファイルの作成
-	$fp = fopen('./img/test.jpg', 'wb');
+	$fp = fopen('./test.jpg', 'wb');
 
 	if ($fp){
 		if (flock($fp, LOCK_EX)){
