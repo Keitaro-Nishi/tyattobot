@@ -20,7 +20,6 @@ $userID = $jsonObj->{"events"} [0]->{"source"}->{"userId"};
 $json_string = file_get_contents ( 'php://input' );
 $jsonObj = json_decode ( $json_string );
 
-$replyToken = $jsonObj->{"events"} [0]->{"replyToken"};
 $messageId = $jsonObj->{"events"} [0]->{"message"}->{"id"};
 
 error_log ( $eventType );
@@ -150,6 +149,7 @@ if ($eventType == "postback") {
 		goto lineSend;
 	}
 }
+//メッセージ以外のとき
 
 if ($type != "text") {
 
