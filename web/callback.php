@@ -172,7 +172,7 @@ if ($type != "text") {
 	curl_close ( $ch );
 
 	// 画像ファイルの作成
-	$fp = fopen ( './test.jpg', 'wb' );
+	$fp = fopen ( './img/test.jpg', 'wb' );
 
 	if ($fp) {
 		if (flock ( $fp, LOCK_EX )) {
@@ -192,8 +192,8 @@ if ($type != "text") {
 	// そのまま画像をオウム返しで送信
 	$response_format_text = [
 			"type" => "image",
-			"originalContentUrl" => "file:///C:/Users/Keitaro_Nishizawa/git/tyattobot/web/test.jpg",
-			"previewImageUrl" => "file:///C:/Users/Keitaro_Nishizawa/git/tyattobot/web/test.jpg"
+			"originalContentUrl" => "file:///C:/Users/Keitaro_Nishizawa/git/tyattobot/web/img/test.jpg",
+			"previewImageUrl" => "file:///C:/Users/Keitaro_Nishizawa/git/tyattobot/web/img/test.jpg"
 	];
 
 	$post_data = [
