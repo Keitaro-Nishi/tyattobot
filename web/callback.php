@@ -16,6 +16,15 @@ $replyToken = $jsonObj->{"events"} [0]->{"replyToken"};
 // ユーザーID取得
 $userID = $jsonObj->{"events"} [0]->{"source"}->{"userId"};
 
+//画像
+$json_string = file_get_contents('php://input');
+$jsonObj = json_decode($json_string);
+
+$replyToken = $jsonObj->{"events"}[0]->{"replyToken"};
+$messageId = $jsonObj->{"events"}[0]->{"message"}->{"id"};
+
+
+
 error_log ( $eventType );
 if ($eventType == "follow") {
 	$response_format_text = [
@@ -147,46 +156,74 @@ if ($eventType == "postback") {
 
 // メッセージ以外のときは何も返さず終了
 if ($type != "text") {
-	exit ();
+	//画像ファイルのバイナリ取得
+	$ch = curl_init("https://api.line.me/v2/bot/message/".$messageId."/content");
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			'Content-Type: application/json; charser=UTF-8',
+			'Authorization: Bearer ' . $accessToken
+	));
+	$result = curl_exec($ch);
+	curl_close($ch);
+
+	//画像ファイルの作成
+	$fp = fopen('./img/test.jpg', 'wb');
+
+	if ($fp){
+		if (flock($fp, LOCK_EX)){
+			if (fwrite($fp,  $result ) === FALSE){
+				print('ファイル書き込みに失敗しました<br>');
+			}else{
+				print($data.'をファイルに書き込みました<br>');
+			}
+
+			flock($fp, LOCK_UN);
+		}else{
+			print('ファイルロックに失敗しました<br>');
+		}
+	}
+
+	fclose($fp);
+
+	//そのまま画像をオウム返しで送信
+	$response_format_text = [
+	"type" => "image",
+	"originalContentUrl" => "【画像ファイルのパス】/img/test.jpg",
+	"previewImageUrl" => "【画像ファイルのパス】/img/test.jpg"
+			];
+
+	$post_data = [
+			"replyToken" => $replyToken,
+			"messages" => [$response_format_text]
+	];
+
+	$ch = curl_init("https://api.line.me/v2/bot/message/reply");
+	curl_setopt($ch, CURLOPT_POST, true);
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			'Content-Type: application/json; charser=UTF-8',
+			'Authorization: Bearer ' . $accessToken
+	));
+	$result = curl_exec($ch);
+	curl_close($ch);
 }
 
 $classfier = "12d0fcx34-nlc-410";
-$workspace_id = "766caa32-cd4c-4103-bb83-5719c9996ecc";
+$workspace_id = "4c2bcc67-db84-438e-b20d-c1d76e143a68";
 
-// $url = "https://gateway.watson-j.jp/natural-language-classifier/api/v1/classifiers/".$classfier."/classify?text=".$text;
-// $url = "https://gateway.watson-j.jp/natural-language-classifier/api/v1/classifiers/".$classfier."/classify";
 $url = "https://gateway.watsonplatform.net/conversation/api/v1/workspaces/" . $workspace_id . "/message?version=2017-04-21";
 
-$username = "e6ab6b4a-5e21-4649-9286-c6e20c60abc4";
-$password = "TyPTVSgRHbp5";
+$username = "3179e86b-8590-463c-b610-c5e75af4a424";
+$password = "aeFxMqFHFRdG";
 
-// $data = array("text" => $text);
 $data = array (
 		'input' => array (
 				"text" => $text
 		)
 );
-/*
- * $data["context"] = array("conversation_id" => "",
- * "system" => array("dialog_stack" => array(array("dialog_node" => "")),
- * "dialog_turn_counter" => 1,
- * "dialog_request_counter" => 1));
- *
- * $curl = curl_init($url);
- *
- * $options = array(
- * CURLOPT_HTTPHEADER => array(
- * 'Content-Type: application/json',
- * ),
- * CURLOPT_USERPWD => $username . ':' . $password,
- * CURLOPT_POST => true,
- * CURLOPT_POSTFIELDS => json_encode($data),
- * CURLOPT_RETURNTRANSFER => true,
- * );
- *
- * curl_setopt_array($curl, $options);
- * $jsonString = curl_exec($curl);
- */
+
 $jsonString = callWatson ();
 $json = json_decode ( $jsonString, true );
 
@@ -252,22 +289,6 @@ error_log("dialog_node");
 pg_close ( $conn );
 
 
-
-/*
- * $curl = curl_init($url);
- * $options = array(
- * CURLOPT_HTTPHEADER => array(
- * 'Content-Type: application/json',
- * ),
- * CURLOPT_USERPWD => $username . ':' . $password,
- * CURLOPT_POST => true,
- * CURLOPT_POSTFIELDS => json_encode($data),
- * CURLOPT_RETURNTRANSFER => true,
- * );
- *
- * curl_setopt_array($curl, $options);
- * $jsonString = curl_exec($curl);
- */
 $jsonString = callWatson ();
 // error_log($jsonString);
 $json = json_decode ( $jsonString, true );
@@ -445,17 +466,7 @@ if (!$rows[userid]==null) {
 // データベースの切断
 pg_close ( $conn );
 
-/*
- * $conversationData = array (
- * 'conversation_id' => $conversationId,
- * 'dialog_node' => $dialogNode
- * );
- * setLastConversationData ( $event->getUserId (), $conversationData );
- *
- * $outputText = $json ['output'] ['text'] [count ( $json ['output'] ['text'] ) - 1];
- *
- * replyTextMessage ( $bot, $event->getReplyToken (), $outputText );
- */
+
 function callWatson() {
 	global $curl, $url, $username, $password, $data, $options;
 	$curl = curl_init ( $url );
