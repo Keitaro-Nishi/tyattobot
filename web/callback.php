@@ -1,7 +1,7 @@
 
 <?php
 // error_log ( $conversation_id );
-$accessToken = getenv ( 'LINE_CHANNEL_ACCESS_TOKEN' );
+//$accessToken = getenv ( 'LINE_CHANNEL_ACCESS_TOKEN' );
 /*
 // ユーザーからのメッセージ取得
 $json_string = file_get_contents ( 'php://input' );
@@ -154,6 +154,7 @@ if ($eventType == "postback") {
 }
 */
 // メッセージ以外のときは何も返さず終了
+
 
 	// 画像ファイルのバイナリ取得
 	$ch = curl_init ( "https://api.line.me/v2/bot/message/" . $messageId . "/content" );
