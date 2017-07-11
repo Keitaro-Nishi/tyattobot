@@ -1,8 +1,8 @@
 
 <?php
 // error_log ( $conversation_id );
-//$accessToken = getenv ( 'LINE_CHANNEL_ACCESS_TOKEN' );
-/*
+$accessToken = getenv ( 'LINE_CHANNEL_ACCESS_TOKEN' );
+
 // ユーザーからのメッセージ取得
 $json_string = file_get_contents ( 'php://input' );
 $jsonObj = json_decode ( $json_string );
@@ -15,7 +15,7 @@ $text = $jsonObj->{"events"} [0]->{"message"}->{"text"};
 $replyToken = $jsonObj->{"events"} [0]->{"replyToken"};
 // ユーザーID取得
 $userID = $jsonObj->{"events"} [0]->{"source"}->{"userId"};
-*/
+
 // 画像
 $json_string = file_get_contents ( 'php://input' );
 $jsonObj = json_decode ( $json_string );
@@ -23,7 +23,7 @@ $jsonObj = json_decode ( $json_string );
 $replyToken = $jsonObj->{"events"} [0]->{"replyToken"};
 $messageId = $jsonObj->{"events"} [0]->{"message"}->{"id"};
 
-/*
+
 error_log ( $eventType );
 if ($eventType == "follow") {
 	$response_format_text = [
@@ -33,7 +33,6 @@ if ($eventType == "follow") {
 					"type" => "buttons",
 					"thumbnailImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg",
 					"title" => "行政市役所",
-					// "text" => "こんにちは。行政市のすいか太郎です。\n皆さんの質問にはりきってお答えしますよ～\nまずは、下のメニュータブをタップしてみてください",
 					"text" => "こんにちは。\n行政市のすいか太郎です。\n皆さんの質問にはりきってお答えしますよ～",
 					"actions" => [
 							[
@@ -152,8 +151,8 @@ if ($eventType == "postback") {
 		goto lineSend;
 	}
 }
-*/
-// メッセージ以外のときは何も返さず終了
+
+
 
 
 	// 画像ファイルのバイナリ取得
@@ -211,7 +210,7 @@ if ($eventType == "postback") {
 	$result = curl_exec ( $ch );
 	curl_close ( $ch );
 
-/*
+
 $classfier = "12d0fcx34-nlc-410";
 $workspace_id = "4c2bcc67-db84-438e-b20d-c1d76e143a68";
 
