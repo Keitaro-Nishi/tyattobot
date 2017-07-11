@@ -241,6 +241,9 @@ $data = array (
 		)
 );
 
+error_log ($text);
+
+
 $jsonString = callWatson ();
 $json = json_decode ( $jsonString, true );
 
