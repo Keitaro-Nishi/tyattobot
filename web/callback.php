@@ -149,66 +149,8 @@ if ($eventType == "postback") {
 		goto lineSend;
 	}
 }
-//メッセージ以外のとき
 
-if ($type != "text") {
-
-	// 画像ファイルのバイナリ取得
-	$ch = curl_init ( "https://api.line.me/v2/bot/message/" . $messageId . "/content" );
-	curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
-	curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
-			'Content-Type: application/json; charser=UTF-8',
-			'Authorization: Bearer ' . $accessToken
-	) );
-	$result = curl_exec ( $ch );
-	curl_close ( $ch );
-
-	// 画像ファイルの作成
-	$fp = fopen ( './img/test.jpg', 'wb' );
-
-	if ($fp) {
-		if (flock ( $fp, LOCK_EX )) {
-			if (fwrite ( $fp, $result ) === FALSE) {
-				error_log ( 'ファイル書き込みに失敗しました' );
-			} else {
-				error_log ( $data . 'をファイルに書き込みました' );
-			}
-
-			flock ( $fp, LOCK_UN );
-		} else {
-			eeror_log ( 'ファイルロックに失敗しました' );
-		}
-	}
-
-	fclose ( $fp );
-
-	// そのまま画像をオウム返しで送信
-	$response_format_text = [
-			"type" => "image",
-			"originalContentUrl" => "【画像ファイルのパス】/img/test.jpg",
-			"previewImageUrl" => "【画像ファイルのパス】/img/test.jpg"
-	];
-
-	$post_data = [
-			"replyToken" => $replyToken,
-			"messages" => [
-					$response_format_text
-			]
-	];
-
-	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" );
-	curl_setopt ( $ch, CURLOPT_POST, true );
-	curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'POST' );
-	curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
-	curl_setopt ( $ch, CURLOPT_POSTFIELDS, json_encode ( $post_data ) );
-	curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
-			'Content-Type: application/json; charser=UTF-8',
-			'Authorization: Bearer ' . $accessToken
-	) );
-	$result = curl_exec ( $ch );
-	curl_close ( $ch );
-} else {
-
+if (1 == 1) {
 	$classfier = "12d0fcx34-nlc-410";
 	$workspace_id = "4c2bcc67-db84-438e-b20d-c1d76e143a68";
 
@@ -471,4 +413,60 @@ if ($type != "text") {
 		curl_setopt_array ( $curl, $options );
 		return curl_exec ( $curl );
 	}
+}else{
+
+	// 画像ファイルのバイナリ取得
+	$ch = curl_init ( "https://api.line.me/v2/bot/message/" . $messageId . "/content" );
+curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
+		'Content-Type: application/json; charser=UTF-8',
+		'Authorization: Bearer ' . $accessToken
+) );
+$result = curl_exec ( $ch );
+curl_close ( $ch );
+
+// 画像ファイルの作成
+$fp = fopen ( './img/test.jpg', 'wb' );
+
+if ($fp) {
+	if (flock ( $fp, LOCK_EX )) {
+		if (fwrite ( $fp, $result ) === FALSE) {
+			error_log ( 'ファイル書き込みに失敗しました' );
+		} else {
+			error_log ( $data . 'をファイルに書き込みました' );
+		}
+
+		flock ( $fp, LOCK_UN );
+	} else {
+		eeror_log ( 'ファイルロックに失敗しました' );
+	}
+}
+
+fclose ( $fp );
+
+// そのまま画像をオウム返しで送信
+$response_format_text = [
+		"type" => "image",
+		"originalContentUrl" => "【画像ファイルのパス】/img/test.jpg",
+		"previewImageUrl" => "【画像ファイルのパス】/img/test.jpg"
+];
+
+$post_data = [
+		"replyToken" => $replyToken,
+		"messages" => [
+				$response_format_text
+		]
+];
+
+$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" );
+curl_setopt ( $ch, CURLOPT_POST, true );
+curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'POST' );
+curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+curl_setopt ( $ch, CURLOPT_POSTFIELDS, json_encode ( $post_data ) );
+curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
+		'Content-Type: application/json; charser=UTF-8',
+		'Authorization: Bearer ' . $accessToken
+) );
+$result = curl_exec ( $ch );
+curl_close ( $ch );
 }
