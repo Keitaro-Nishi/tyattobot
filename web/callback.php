@@ -150,84 +150,85 @@ if ($eventType == "postback") {
 	}
 }
 
-// メッセージ以外の場合
+// 画像の場合
 if ($type = "image") {
-	error_log(画像を認識);
-	$json_string = file_get_contents('php://input');
-	$jsonObj = json_decode($json_string);
+	error_log ( 画像受信 );
+	$json_string = file_get_contents ( 'php://input' );
+	$jsonObj = json_decode ( $json_string );
 
-	$replyToken = $jsonObj->{"events"}[0]->{"replyToken"};
-	$messageId = $jsonObj->{"events"}[0]->{"message"}->{"id"};
+	$replyToken = $jsonObj->{"events"} [0]->{"replyToken"};
+	$messageId = $jsonObj->{"events"} [0]->{"message"}->{"id"};
 
-	//画像ファイルのバイナリ取得
-	$ch = curl_init("https://api.line.me/v2/bot/message/reply".$messageId."/content");
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+	// 画像ファイルのバイナリ取得
+	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" . $messageId . "/content" );
+	curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+	curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
 			'Content-Type: application/json; charser=UTF-8',
 			'Authorization: Bearer ' . $accessToken
-	));
-	$result = curl_exec($ch);
-	curl_close($ch);
+	) );
+	$result = curl_exec ( $ch );
+	curl_close ( $ch );
 
-	//画像ファイルの作成
-	$fp = fopen('./test.jpg', 'wb');
+	// 画像ファイルの作成
+	$fp = fopen ( './test.jpg', 'wb' );
 
-	if ($fp){
-		if (flock($fp, LOCK_EX)){
-			if (fwrite($fp,  $result ) === FALSE){
-				error_log('ファイル書き込みに失敗しました');
-			}else{
-				error_log($data.'をファイルに書き込みました<br>');
+	if ($fp) {
+		if (flock ( $fp, LOCK_EX )) {
+			if (fwrite ( $fp, $result ) === FALSE) {
+				error_log ( 'ファイル書き込みに失敗しました' );
+			} else {
+				error_log ('ファイルに書き込みました' );
 			}
-
-			flock($fp, LOCK_UN);
-		}else{
-			print('ファイルロックに失敗しました<br>');
+			flock ( $fp, LOCK_UN );
+		} else {
+			error_log ('ファイルロックに失敗しました') ;
 		}
 	}
 
-	fclose($fp);
+	fclose ( $fp );
 
-	//そのまま画像をオウム返しで送信
+	// そのまま画像をオウム返しで送信
 	$response_format_text = [
-	"type" => "image",
-	"originalContentUrl" => "file:///C:/Users/Keitaro_Nishizawa/git/tyattobot/web/test.jpg",
-	"previewImageUrl" => "file:///C:/Users/Keitaro_Nishizawa/git/tyattobot/web/test.jpg"
-			];
+			"type" => "image",
+			"originalContentUrl" => "file:///C:/Users/Keitaro_Nishizawa/git/tyattobot/web/test.jpg",
+			"previewImageUrl" => "file:///C:/Users/Keitaro_Nishizawa/git/tyattobot/web/test.jpg"
+	];
 
 	$post_data = [
 			"replyToken" => $replyToken,
-			"messages" => [$response_format_text]
+			"messages" => [
+					$response_format_text
+			]
 	];
 
-	$ch = curl_init("https://api.line.me/v2/bot/message/reply");
-	curl_setopt($ch, CURLOPT_POST, true);
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" );
+	curl_setopt ( $ch, CURLOPT_POST, true );
+	curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'POST' );
+	curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+	curl_setopt ( $ch, CURLOPT_POSTFIELDS, json_encode ( $post_data ) );
+	curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
 			'Content-Type: application/json; charser=UTF-8',
 			'Authorization: Bearer ' . $accessToken
-	));
-	$result = curl_exec($ch);
-	curl_close($ch);
-	error_log(208);
+	) );
+	$result = curl_exec ( $ch );
+	curl_close ( $ch );
+	error_log ( 画像送信 );
 	/*
-	 $url = 'https://gateway-a.watsonpwatson_visual_recognition($url);
-	 $username = "a1ff7482-0333-47latform.net/visual-recognition/api';
-	 $api_response = 50-a7dd-9add973b035e";
-	 $password = "yEXJnqxCGWWM";
-
-
-	 function watson_visual_recognition($url) {
-	 $api_key = 'c24e26752cbdd81008614ff2379f39be5dc9b629'; // IBM Bluemixで取得
-	 $api_url = 'https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classify';
-	 $response = file_get_contents ( $api_url . '?api_key=' . $api_key . '&url=' . $url . '&version=2016-05-19' );
-	 return json_decode ( $response, true );
-
-	 }
+	 * $url = 'https://gateway-a.watsonpwatson_visual_recognition($url);
+	 * $username = "a1ff7482-0333-47latform.net/visual-recognition/api';
+	 * $api_response = 50-a7dd-9add973b035e";
+	 * $password = "yEXJnqxCGWWM";
+	 *
+	 *
+	 * function watson_visual_recognition($url) {
+	 * $api_key = 'c24e26752cbdd81008614ff2379f39be5dc9b629'; // IBM Bluemixで取得
+	 * $api_url = 'https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classify';
+	 * $response = file_get_contents ( $api_url . '?api_key=' . $api_key . '&url=' . $url . '&version=2016-05-19' );
+	 * return json_decode ( $response, true );
+	 *
+	 * }
 	 */
-	exit();
+	exit ();
 }
 
 $classfier = "12d0fcx34-nlc-410";
