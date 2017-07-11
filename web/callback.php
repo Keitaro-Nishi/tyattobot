@@ -153,7 +153,7 @@ if ($eventType == "postback") {
 }
 */
 // メッセージ以外のときは何も返さず終了
-if (1 == 1) {
+
 	// 画像ファイルのバイナリ取得
 	$ch = curl_init ( "https://api.line.me/v2/bot/message/" . $messageId . "/content" );
 	curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
@@ -208,8 +208,8 @@ if (1 == 1) {
 	) );
 	$result = curl_exec ( $ch );
 	curl_close ( $ch );
-}
 
+/*
 $classfier = "12d0fcx34-nlc-410";
 $workspace_id = "4c2bcc67-db84-438e-b20d-c1d76e143a68";
 
