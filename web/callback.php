@@ -23,6 +23,7 @@ $jsonObj = json_decode ( $json_string );
 $replyToken = $jsonObj->{"events"} [0]->{"replyToken"};
 $messageId = $jsonObj->{"events"} [0]->{"message"}->{"id"};
 
+/*
 error_log ( $eventType );
 if ($eventType == "follow") {
 	$response_format_text = [
@@ -60,7 +61,7 @@ if ($eventType == "follow") {
 	];
 	goto lineSend;
 }
-/*
+
 if ($eventType == "postback") {
 	$bData = $jsonObj->{"events"} [0]->{"postback"}->{"data"};
 	if ($bData == 'action=qaline') {
