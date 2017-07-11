@@ -16,14 +16,12 @@ $replyToken = $jsonObj->{"events"} [0]->{"replyToken"};
 // ユーザーID取得
 $userID = $jsonObj->{"events"} [0]->{"source"}->{"userId"};
 
-//画像
-$json_string = file_get_contents('php://input');
-$jsonObj = json_decode($json_string);
+// 画像
+$json_string = file_get_contents ( 'php://input' );
+$jsonObj = json_decode ( $json_string );
 
-$replyToken = $jsonObj->{"events"}[0]->{"replyToken"};
-$messageId = $jsonObj->{"events"}[0]->{"message"}->{"id"};
-
-
+$replyToken = $jsonObj->{"events"} [0]->{"replyToken"};
+$messageId = $jsonObj->{"events"} [0]->{"message"}->{"id"};
 
 error_log ( $eventType );
 if ($eventType == "follow") {
@@ -62,7 +60,7 @@ if ($eventType == "follow") {
 	];
 	goto lineSend;
 }
-
+/*
 if ($eventType == "postback") {
 	$bData = $jsonObj->{"events"} [0]->{"postback"}->{"data"};
 	if ($bData == 'action=qaline') {
@@ -153,61 +151,63 @@ if ($eventType == "postback") {
 		goto lineSend;
 	}
 }
-
+*/
 // メッセージ以外のときは何も返さず終了
-if ($type != "text") {
-	//画像ファイルのバイナリ取得
-	$ch = curl_init("https://api.line.me/v2/bot/message/".$messageId."/content");
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+if (1 == 1) {
+	// 画像ファイルのバイナリ取得
+	$ch = curl_init ( "https://api.line.me/v2/bot/message/" . $messageId . "/content" );
+	curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+	curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
 			'Content-Type: application/json; charser=UTF-8',
 			'Authorization: Bearer ' . $accessToken
-	));
-	$result = curl_exec($ch);
-	curl_close($ch);
+	) );
+	$result = curl_exec ( $ch );
+	curl_close ( $ch );
 
-	//画像ファイルの作成
-	$fp = fopen('./img/test.jpg', 'wb');
+	// 画像ファイルの作成
+	$fp = fopen ( './img/test.jpg', 'wb' );
 
-	if ($fp){
-		if (flock($fp, LOCK_EX)){
-			if (fwrite($fp,  $result ) === FALSE){
-				print('ファイル書き込みに失敗しました<br>');
-			}else{
-				print($data.'をファイルに書き込みました<br>');
+	if ($fp) {
+		if (flock ( $fp, LOCK_EX )) {
+			if (fwrite ( $fp, $result ) === FALSE) {
+				print ('ファイル書き込みに失敗しました<br>') ;
+			} else {
+				print ($data . 'をファイルに書き込みました<br>') ;
 			}
 
-			flock($fp, LOCK_UN);
-		}else{
-			print('ファイルロックに失敗しました<br>');
+			flock ( $fp, LOCK_UN );
+		} else {
+			print ('ファイルロックに失敗しました<br>') ;
 		}
 	}
 
-	fclose($fp);
+	fclose ( $fp );
 
-	//そのまま画像をオウム返しで送信
+	// そのまま画像をオウム返しで送信
 	$response_format_text = [
-	"type" => "image",
-	"originalContentUrl" => "【画像ファイルのパス】/img/test.jpg",
-	"previewImageUrl" => "【画像ファイルのパス】/img/test.jpg"
-			];
+			"type" => "image",
+			"originalContentUrl" => "【画像ファイルのパス】/img/test.jpg",
+			"previewImageUrl" => "【画像ファイルのパス】/img/test.jpg"
+	];
 
 	$post_data = [
 			"replyToken" => $replyToken,
-			"messages" => [$response_format_text]
+			"messages" => [
+					$response_format_text
+			]
 	];
 
-	$ch = curl_init("https://api.line.me/v2/bot/message/reply");
-	curl_setopt($ch, CURLOPT_POST, true);
-	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_data));
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" );
+	curl_setopt ( $ch, CURLOPT_POST, true );
+	curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'POST' );
+	curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+	curl_setopt ( $ch, CURLOPT_POSTFIELDS, json_encode ( $post_data ) );
+	curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
 			'Content-Type: application/json; charser=UTF-8',
 			'Authorization: Bearer ' . $accessToken
-	));
-	$result = curl_exec($ch);
-	curl_close($ch);
+	) );
+	$result = curl_exec ( $ch );
+	curl_close ( $ch );
 }
 
 $classfier = "12d0fcx34-nlc-410";
@@ -243,13 +243,11 @@ if (! $link) {
 }
 
 // cvsdataテーブルからデータの取得
-$result = pg_query ( "SELECT dnode FROM cvsdata WHERE userid = '$userID'");
+$result = pg_query ( "SELECT dnode FROM cvsdata WHERE userid = '$userID'" );
 $rows = pg_fetch_array ( $result, NULL, PGSQL_ASSOC );
 
-
-
-if ( $rows[dnode] == null) {
-	error_log(214);
+if ($rows [dnode] == null) {
+	error_log ( 214 );
 
 	$data ["context"] = array (
 			"conversation_id" => $conversation_id,
@@ -263,8 +261,7 @@ if ( $rows[dnode] == null) {
 					"dialog_request_counter" => 1
 			)
 	);
-
-}else{
+} else {
 	$data ["context"] = array (
 			"conversation_id" => $conversation_id,
 			"system" => array (
@@ -279,15 +276,11 @@ if ( $rows[dnode] == null) {
 	);
 }
 
-
-error_log(245);
-error_log("dialog_node");
-
-
+error_log ( 245 );
+error_log ( "dialog_node" );
 
 // データベースの切断
 pg_close ( $conn );
-
 
 $jsonString = callWatson ();
 // error_log($jsonString);
@@ -453,11 +446,9 @@ $rows = pg_fetch_array ( $result, NULL, PGSQL_ASSOC );
 error_log ( $rows [userid] );
 error_log ( $userID );
 
-if (!$rows[userid]==null) {
-	$sql = sprintf ( "UPDATE cvsdata SET  conversationid = '$conversationId', dnode = '$dialogNode' WHERE userid = '$userID'"
-			, pg_escape_string ( $conversationId, $dialogNode ) );
+if (! $rows [userid] == null) {
+	$sql = sprintf ( "UPDATE cvsdata SET  conversationid = '$conversationId', dnode = '$dialogNode' WHERE userid = '$userID'", pg_escape_string ( $conversationId, $dialogNode ) );
 	$result_flag = pg_query ( $sql );
-
 } else {
 	$sql = "INSERT INTO cvsdata (userid, conversationid, dnode) VALUES ('$userID', '$conversationId', '$dialogNode')";
 	$result_flag = pg_query ( $sql );
@@ -465,8 +456,6 @@ if (!$rows[userid]==null) {
 
 // データベースの切断
 pg_close ( $conn );
-
-
 function callWatson() {
 	global $curl, $url, $username, $password, $data, $options;
 	$curl = curl_init ( $url );
