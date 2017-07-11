@@ -2,7 +2,7 @@
 <?php
 // error_log ( $conversation_id );
 $accessToken = getenv ( 'LINE_CHANNEL_ACCESS_TOKEN' );
-
+/*
 // ユーザーからのメッセージ取得
 $json_string = file_get_contents ( 'php://input' );
 $jsonObj = json_decode ( $json_string );
@@ -15,7 +15,7 @@ $text = $jsonObj->{"events"} [0]->{"message"}->{"text"};
 $replyToken = $jsonObj->{"events"} [0]->{"replyToken"};
 // ユーザーID取得
 $userID = $jsonObj->{"events"} [0]->{"source"}->{"userId"};
-
+*/
 // 画像
 $json_string = file_get_contents ( 'php://input' );
 $jsonObj = json_decode ( $json_string );
@@ -170,14 +170,14 @@ if ($eventType == "postback") {
 	if ($fp) {
 		if (flock ( $fp, LOCK_EX )) {
 			if (fwrite ( $fp, $result ) === FALSE) {
-				print ('ファイル書き込みに失敗しました<br>') ;
+				error_log('ファイル書き込みに失敗しました') ;
 			} else {
-				print ($data . 'をファイルに書き込みました<br>') ;
+				error_log ($data . 'をファイルに書き込みました') ;
 			}
 
 			flock ( $fp, LOCK_UN );
 		} else {
-			print ('ファイルロックに失敗しました<br>') ;
+			eeror_log ('ファイルロックに失敗しました') ;
 		}
 	}
 
