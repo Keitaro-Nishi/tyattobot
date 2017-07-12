@@ -158,14 +158,14 @@ if ($type != "text") {
 	error_log ( 画像受信 );
 	$json_string = file_get_contents ( 'php://input' );
 	$jsonObj = json_decode ( $json_string );
-/*
+
 	$replyToken = $jsonObj->{"events"} [0]->{"replyToken"};
 	$messageId = $jsonObj->{"events"} [0]->{"message"}->{"id"};
 
 	error_log ( 162 );
 	error_log ( $messageId );
 	// ↓コメ
-*/
+
 	/*
 	 *
 	 * // 画像ファイルのバイナリ取得
@@ -201,20 +201,20 @@ if ($type != "text") {
 	 *
 	 * //↑コメ
 	 */
-/*
+
 	// そのまま画像をオウム返しで送信
 	$response_format_text = [
 			"type" => "image",
-			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg",
-			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg"
+			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg",
+			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg"
 	];
-*/
+/*
 	 	 $response_format_text = [
 			"type" => "text",
 			"text" => $jsonObj
 			//"text" => $result
 	];
-
+*/
 	 	 $post_data = [
 			"replyToken" => $replyToken,
 			"messages" => [
