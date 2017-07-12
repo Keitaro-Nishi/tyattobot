@@ -208,9 +208,7 @@ if ($type != "text") {
 			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg",
 			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg"
 	];
-
-/*
-//エラーログの代わり
+/*エラーログの代わり
 	 	 $response_format_text = [
 			"type" => "text",
 			"text" => $jsonObj
@@ -249,7 +247,7 @@ if ($type != "text") {
 $classfier = "12d0fcx34-nlc-410";
 $workspace_id = "4c2bcc67-db84-438e-b20d-c1d76e143a68";
 
-$url = "https://gateway-a.watsonplatform.net/visual-recognition/api";
+$url = "https://gateway.watsonplatform.net/conversation/api/v1/workspaces/" . $workspace_id . "/message?version=2017-04-21";
 
 $username = "3179e86b-8590-463c-b610-c5e75af4a424";
 $password = "aeFxMqFHFRdG";
@@ -390,6 +388,13 @@ if ($mes == "usrChoise_2") {
 $response_format_text = [
 		"type" => "text",
 		"text" => $mes
+	/*
+ * //画像送信
+ * $response_format_text = [
+ * "type" => "image",
+ * "originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg",
+ * "previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg"
+ */
 ];
 
 lineSend:
