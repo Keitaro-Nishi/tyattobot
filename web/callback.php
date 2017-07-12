@@ -197,12 +197,18 @@ if ($type != "text") {
 	fclose ( $fp );
 
 //↑コメ
-
+/*
 	// そのまま画像をオウム返しで送信
 	$response_format_text = [
 			"type" => "image",
 			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg",
 			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg"
+	];
+*/
+
+	$response_format_text = [
+	"type" => "text",
+	"text" => $messageId
 	];
 
 	$post_data = [
@@ -210,6 +216,7 @@ if ($type != "text") {
 			"messages" => [
 					$response_format_text
 			]
+
 	];
 
 	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" );
