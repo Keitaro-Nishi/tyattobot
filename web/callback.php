@@ -198,8 +198,8 @@ if ($type != "text") {
 	// そのまま画像をオウム返しで送信
 	$response_format_text = [
 			"type" => "image",
-			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg",
-			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg"
+			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg",
+			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg"
 	];
 
 	$post_data = [
