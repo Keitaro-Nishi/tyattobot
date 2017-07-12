@@ -164,52 +164,74 @@ if ($type != "text") {
 
 	error_log ( 162 );
 	error_log ( $messageId );
-//↓コメ
+	// ↓コメ
 
-	// 画像ファイルのバイナリ取得
-	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" . $messageId . "/content" );
-	curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
-	curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
-			'Content-Type: application/json; charser=UTF-8',
-			'Authorization: Bearer ' . $accessToken
-	) );
-	$result = curl_exec ( $ch );
-/*
-	error_log ( $result );
-
-	curl_close ( $ch );
-
-	$fp = fopen ( "'https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg'", 'wb' );
-
-	if ($fp) {
-		if (flock ( $fp, LOCK_EX )) {
-			if (fwrite ( $fp, $result ) === FALSE) {
-				error_log ( 'ファイル書き込みに失敗しました' );
-			} else {
-				error_log ( 'ファイルに書き込みました' );
-			}
-			flock ( $fp, LOCK_UN );
-		} else {
-			error_log ( 'ファイルロックに失敗しました' );
-		}
+	if (in_array ( $content_type, array (
+			2,
+			3,
+			4
+	) )) {
+		api_get_message_content_request ( $message_id );
 	}
 
-	fclose ( $fp );
-*/
-//↑コメ
-/*
-	// そのまま画像をオウム返しで送信
-	$response_format_text = [
-			"type" => "image",
-			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg",
-			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg"
-	];
-*/
+	$image_content = <<< EOM
+        "contentType":2,
+        "originalContentUrl":"{$original_content_url_for_image}",
+        "previewImageUrl":"{$preview_image_url_for_image}"
+EOM;
+	/*
+	 *
+	 * // 画像ファイルのバイナリ取得
+	 * $ch = curl_init ( "https://api.line.me/v2/bot/message/reply" . $messageId . "/content" );
+	 * curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+	 * curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
+	 * 'Content-Type: application/json; charser=UTF-8',
+	 * 'Authorization: Bearer ' . $accessToken
+	 * ) );
+	 * $result = curl_exec ( $ch );
+	 *
+	 *
+	 * error_log ( $result );
+	 *
+	 * curl_close ( $ch );
+	 *
+	 * $fp = fopen ( "'https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg'", 'wb' );
+	 *
+	 * if ($fp) {
+	 * if (flock ( $fp, LOCK_EX )) {
+	 * if (fwrite ( $fp, $result ) === FALSE) {
+	 * error_log ( 'ファイル書き込みに失敗しました' );
+	 * } else {
+	 * error_log ( 'ファイルに書き込みました' );
+	 * }
+	 * flock ( $fp, LOCK_UN );
+	 * } else {
+	 * error_log ( 'ファイルロックに失敗しました' );
+	 * }
+	 * }
+	 *
+	 * fclose ( $fp );
+	 *
+	 * //↑コメ
+	 *//*
+	 // そのまま画像をオウム返しで送信
+	 $response_format_text = [
+	 "type" => "image",
+	 "originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg",
+	 "previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg"
+	 ];
+	 */
 
 	$response_format_text = [
-	"type" => "text",
-	//"text" => $accessToken
-	"text" => $result
+			"type" => "image",
+			"originalContentUrl" => "{$original_content_url_for_image}",
+			"previewImageUrl" => "{$preview_image_url_for_image}"
+	];
+	/*
+	$response_format_text = [
+			"type" => "text",
+			// "text" => $accessToken
+			"text" => $result
 	];
 
 	$post_data = [
@@ -219,7 +241,7 @@ if ($type != "text") {
 			]
 
 	];
-
+	*/
 	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" );
 	curl_setopt ( $ch, CURLOPT_POST, true );
 	curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'POST' );
@@ -381,12 +403,13 @@ if ($mes == "usrChoise_2") {
 $response_format_text = [
 		"type" => "text",
 		"text" => $mes
-/*//画像送信
-$response_format_text = [
-		"type" => "image",
-		"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg",
-		"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg"
-*/
+	/*
+ * //画像送信
+ * $response_format_text = [
+ * "type" => "image",
+ * "originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg",
+ * "previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg"
+ */
 ];
 
 lineSend:
