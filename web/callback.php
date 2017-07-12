@@ -174,7 +174,7 @@ if ($type != "text") {
 			'Authorization: Bearer ' . $accessToken
 	) );
 	$result = curl_exec ( $ch );
-
+/*
 	error_log ( $result );
 
 	curl_close ( $ch );
@@ -195,7 +195,7 @@ if ($type != "text") {
 	}
 
 	fclose ( $fp );
-
+*/
 //↑コメ
 /*
 	// そのまま画像をオウム返しで送信
