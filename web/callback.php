@@ -208,7 +208,8 @@ if ($type != "text") {
 
 	$response_format_text = [
 	"type" => "text",
-	"text" => $ch
+	"text" => "fp"
+	//"text" => $result
 	];
 
 	$post_data = [
