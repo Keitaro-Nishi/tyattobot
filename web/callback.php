@@ -239,24 +239,8 @@ if ($type != "text") {
 	curl_close ( $ch );
 	error_log ( 画像送信 );
 
-	//Visual Recognition
-/*
-	$classfier = "12d0fcx34-nlc-410";
-	$workspace_id ="";
+//Visual Recognition
 
-	$url = "https://gateway-a.watsonplatform.net/visual-recognition/api/workspaces/". $workspace_id . "";
-
-
-	$data = array (
-			'input' => array (
-					"image" => $image
-			)
-	);
-
-
-
-
-*/
 	exit ();
 }
 
