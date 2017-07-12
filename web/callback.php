@@ -201,20 +201,20 @@ if ($type != "text") {
 	 *
 	 * //↑コメ
 	 */
-
+/*
 	// そのまま画像をオウム返しで送信
 	$response_format_text = [
 			"type" => "image",
 			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg",
 			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg"
 	];
-	/*
+*/
 	 	 $response_format_text = [
 			"type" => "text",
-			// "text" => $accessToken
-			"text" => $result
+			"text" => $jsonObj
+			//"text" => $result
 	];
-	*/
+
 	 	 $post_data = [
 			"replyToken" => $replyToken,
 			"messages" => [
