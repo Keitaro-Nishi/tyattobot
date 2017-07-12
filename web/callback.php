@@ -166,47 +166,47 @@ if ($type != "text") {
 	error_log ( $messageId );
 	// ↓コメ
 
-	/*
-	 *
-	 * // 画像ファイルのバイナリ取得
-	 * $ch = curl_init ( "https://api.line.me/v2/bot/message/reply" . $messageId . "/content" );
-	 * curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
-	 * curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
-	 * 'Content-Type: application/json; charser=UTF-8',
-	 * 'Authorization: Bearer ' . $accessToken
-	 * ) );
-	 * $result = curl_exec ( $ch );
-	 *
-	 *
-	 * error_log ( $result );
-	 *
-	 * curl_close ( $ch );
-	 *
-	 * $fp = fopen ( "'https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg'", 'wb' );
-	 *
-	 * if ($fp) {
-	 * if (flock ( $fp, LOCK_EX )) {
-	 * if (fwrite ( $fp, $result ) === FALSE) {
-	 * error_log ( 'ファイル書き込みに失敗しました' );
-	 * } else {
-	 * error_log ( 'ファイルに書き込みました' );
-	 * }
-	 * flock ( $fp, LOCK_UN );
-	 * } else {
-	 * error_log ( 'ファイルロックに失敗しました' );
-	 * }
-	 * }
-	 *
-	 * fclose ( $fp );
-	 *
-	 * //↑コメ
-	 */
+
+
+	 // 画像ファイルのバイナリ取得
+	 $ch = curl_init ( "https://api.line.me/v2/bot/message/reply" . $messageId . "/content" );
+	 curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+	 curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
+	 'Content-Type: application/json; charser=UTF-8',
+	 'Authorization: Bearer ' . $accessToken
+	 ) );
+	 $result = curl_exec ( $ch );
+
+
+	 error_log ( $result );
+
+	 curl_close ( $ch );
+
+	 $fp = fopen ( "'https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg'", 'wb' );
+
+	 if ($fp) {
+	 if (flock ( $fp, LOCK_EX )) {
+	 if (fwrite ( $fp, $result ) === FALSE) {
+	 error_log ( 'ファイル書き込みに失敗しました' );
+	 } else {
+	 error_log ( 'ファイルに書き込みました' );
+	 }
+	 flock ( $fp, LOCK_UN );
+	 } else {
+	 error_log ( 'ファイルロックに失敗しました' );
+	 }
+	 }
+
+	 fclose ( $fp );
+
+	 //↑コメ
+
 
 	// そのまま画像をオウム返しで送信
 	$response_format_text = [
 			"type" => "image",
-			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg",
-			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg"
+			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg",
+			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg"
 	];
 /*
 	 	 $response_format_text = [
