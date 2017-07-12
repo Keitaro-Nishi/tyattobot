@@ -208,11 +208,13 @@ if ($type != "text") {
 			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg",
 			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg"
 	];
+	/*
 	 	 $response_format_text = [
 			"type" => "text",
 			// "text" => $accessToken
 			"text" => $result
 	];
+	*/
 	 	 $post_data = [
 			"replyToken" => $replyToken,
 			"messages" => [
