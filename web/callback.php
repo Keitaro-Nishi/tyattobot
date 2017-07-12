@@ -260,14 +260,6 @@ if ($type != "text") {
 	exit ();
 }
 
-
-
-
-
-
-
-
-
 //Conversation用
 
 $classfier = "12d0fcx34-nlc-410";
@@ -414,13 +406,6 @@ if ($mes == "usrChoise_2") {
 $response_format_text = [
 		"type" => "text",
 		"text" => $mes
-	/*
- * //画像送信
- * $response_format_text = [
- * "type" => "image",
- * "originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg",
- * "previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg"
- */
 ];
 
 lineSend:
