@@ -208,8 +208,8 @@ if ($type != "text") {
 
 	$response_format_text = [
 	"type" => "text",
-	"text" => $accessToken
-	//"text" => $result
+	//"text" => $accessToken
+	"text" => $result
 	];
 
 	$post_data = [
