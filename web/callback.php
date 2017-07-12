@@ -155,6 +155,7 @@ if ($eventType == "postback") {
 // 画像の場合
 
 if ($type != "text") {
+/*
 	error_log ( 画像受信 );
 	$json_string = file_get_contents ( 'php://input' );
 	$jsonObj = json_decode ( $json_string );
@@ -162,9 +163,9 @@ if ($type != "text") {
 	$replyToken = $jsonObj->{"events"} [0]->{"replyToken"};
 	$messageId = $jsonObj->{"events"} [0]->{"message"}->{"id"};
 
-	eeror_log ( 162 );
+	error_log ( 162 );
 	error_log ( $messageId );
-/*
+
 	// 画像ファイルのバイナリ取得
 	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" . $messageId . "/content" );
 	curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
