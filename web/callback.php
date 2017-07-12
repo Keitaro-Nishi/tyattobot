@@ -166,26 +166,6 @@ if ($type != "text") {
 	error_log ( $messageId );
 	// ↓コメ
 
-	if (in_array ( $content_type, array (
-			2,
-			3,
-			4
-	) )) {
-		api_get_message_content_request ( $messageId );
-	}
-
-	$image_content = <<< EOM
-        "contentType":2,
-        "originalContentUrl":"{$original_content_url_for_image}",
-        "previewImageUrl":"{$preview_image_url_for_image}"
-EOM;
-
-	$response_format_text = [
-			"type" => "image",
-			"originalContentUrl" => "{$original_content_url_for_image}",
-			"previewImageUrl" => "{$preview_image_url_for_image}"
-	];
-
 	/*
 	 *
 	 * // 画像ファイルのバイナリ取得
@@ -221,28 +201,26 @@ EOM;
 	 *
 	 * //↑コメ
 	 */
-	/*
-	 * // そのまま画像をオウム返しで送信
-	 * $response_format_text = [
-	 * "type" => "image",
-	 * "originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg",
-	 * "previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg"
-	 * ];
-	 *
-	 * $response_format_text = [
-	 * "type" => "text",
-	 * // "text" => $accessToken
-	 * "text" => $result
-	 * ];
-	 *
-	 * $post_data = [
-	 * "replyToken" => $replyToken,
-	 * "messages" => [
-	 * $response_format_text
-	 * ]
-	 *
-	 * ];
-	 */
+
+	// そのまま画像をオウム返しで送信
+	$response_format_text = [
+			"type" => "image",
+			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg",
+			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg"
+	];
+	 	 $response_format_text = [
+			"type" => "text",
+			// "text" => $accessToken
+			"text" => $result
+	];
+	 	 $post_data = [
+			"replyToken" => $replyToken,
+			"messages" => [
+					$response_format_text
+			]
+
+	];
+
 	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" );
 	curl_setopt ( $ch, CURLOPT_POST, true );
 	curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'POST' );
