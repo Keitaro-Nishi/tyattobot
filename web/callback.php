@@ -198,25 +198,21 @@ if ($type != "text") {
 
 	// ↑コメ
 
-	$response_format_text = [
-	"type" => "text",
-	"text" => $text
-	];
 
-	/*
-	 * // そのまま画像をオウム返しで送信
-	 * $response_format_text = [
-	 * "type" => "image",
-	 * "originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg",
-	 * "previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg"
-	 * ];
-	 * //エラーログの代わり
-	 * $response_format_text = [
-	 * "type" => "text",
-	 * "text" => $jsonObj
-	 * //"text" => $result
-	 * ];
-	 */
+	 // そのまま画像をオウム返しで送信
+	 $response_format_text = [
+	 "type" => "image",
+	 "originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg",
+	 "previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg"
+	 ];
+/*
+	 //エラーログの代わり
+	 $response_format_text = [
+	 "type" => "text",
+	 "text" => $jsonObj
+	 //"text" => $result
+	 ];
+
 	$post_data = [
 			"replyToken" => $replyToken,
 			"messages" => [
@@ -224,7 +220,7 @@ if ($type != "text") {
 			]
 
 	];
-
+*/
 	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" );
 	curl_setopt ( $ch, CURLOPT_POST, true );
 	curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'POST' );
