@@ -211,7 +211,7 @@ if ($type != "text") {
 */
 	 	 $response_format_text = [
 			"type" => "text",
-			"text" => $jsonObj
+			"text" => $json_string
 			//"text" => $result
 	];
 
