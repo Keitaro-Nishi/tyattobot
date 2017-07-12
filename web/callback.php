@@ -202,7 +202,7 @@ if ($type != "text") {
 			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg",
 			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg"
 	];
-/*
+
 	$post_data = [
 			"replyToken" => $replyToken,
 			"messages" => [
@@ -223,16 +223,6 @@ if ($type != "text") {
 	$result = curl_exec ( $ch );
 	curl_close ( $ch );
 	error_log ( 画像送信 );
-*/
-
-	lineSend:
-	error_log ( $response_format_text );
-	$post_data = [
-			"replyToken" => $replyToken,
-			"messages" => [
-					$response_format_text
-			]
-	];
 
 	exit ();
 }
@@ -309,10 +299,11 @@ error_log ( "dialog_node" );
 pg_close ( $conn );
 
 $jsonString = callWatson ();
-
+// error_log($jsonString);
 $json = json_decode ( $jsonString, true );
 
 $mes = $json ["output"] ["text"] [0];
+// $mes = $json["output"];
 
 if ($mes == "usrChoise_1") {
 	$response_format_text = [
