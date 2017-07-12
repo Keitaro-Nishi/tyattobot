@@ -164,7 +164,7 @@ if ($type != "text") {
 
 	eeror_log ( 162 );
 	error_log ( $messageId );
-
+/*
 	// 画像ファイルのバイナリ取得
 	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" . $messageId . "/content" );
 	curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
@@ -194,7 +194,7 @@ if ($type != "text") {
 	}
 
 	fclose ( $fp );
-
+*/
 	// そのまま画像をオウム返しで送信
 	$response_format_text = [
 			"type" => "image",
@@ -370,7 +370,7 @@ if ($mes == "usrChoise_2") {
 $response_format_text = [
 		"type" => "text",
 		"text" => $mes
-/*
+/*//画像送信
 $response_format_text = [
 		"type" => "image",
 		"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg",
