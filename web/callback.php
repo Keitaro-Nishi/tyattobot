@@ -164,7 +164,8 @@ if ($type != "text") {
 
 	error_log ( 162 );
 	error_log ( $messageId );
-/*
+//↓コメ
+
 	// 画像ファイルのバイナリ取得
 	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" . $messageId . "/content" );
 	curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
@@ -194,7 +195,9 @@ if ($type != "text") {
 	}
 
 	fclose ( $fp );
-*/
+
+//↑コメ
+
 	// そのまま画像をオウム返しで送信
 	$response_format_text = [
 			"type" => "image",
