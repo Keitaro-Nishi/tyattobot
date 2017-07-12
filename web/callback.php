@@ -208,7 +208,7 @@ if ($type != "text") {
 
 	$response_format_text = [
 	"type" => "text",
-	"text" => $fp
+	"text" => $type
 	//"text" => $result
 	];
 
