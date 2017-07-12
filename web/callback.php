@@ -208,7 +208,7 @@ if ($type != "text") {
 
 	$response_format_text = [
 	"type" => "text",
-	"text" => $type
+	"text" => $accessToken
 	//"text" => $result
 	];
 
