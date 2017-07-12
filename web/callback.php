@@ -182,7 +182,7 @@ if ($type != "text") {
 
 	 curl_close ( $ch );
 
-	 $fp = fopen ( "'https://" . $_SERVER ['SERVER_NAME'] . "/img/test.jpg'", 'wb' );
+	 $fp = fopen ( "'https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg'", 'wb' );
 
 	 if ($fp) {
 	 if (flock ( $fp, LOCK_EX )) {
@@ -205,8 +205,8 @@ if ($type != "text") {
 	// そのまま画像をオウム返しで送信
 	$response_format_text = [
 			"type" => "image",
-			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/img/rabbit.jpg",
-			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/img/rabbit.jpg"
+			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg",
+			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg"
 	];
 /*エラーログの代わり
 	 	 $response_format_text = [
