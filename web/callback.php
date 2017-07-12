@@ -366,15 +366,16 @@ if ($mes == "usrChoise_2") {
 	];
 	goto lineSend;
 }
-/*
+
 $response_format_text = [
 		"type" => "text",
 		"text" => $mes
-*/
+/*
 $response_format_text = [
 		"type" => "image",
 		"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg",
 		"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg"
+*/
 ];
 
 lineSend:
