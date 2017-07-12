@@ -199,11 +199,8 @@ if ($type != "text") {
 	// ↑コメ
 
 	$response_format_text = [
-			$data = array (
-					'input' => array (
-							"image" => $image
-					)
-			)
+	"type" => "text",
+	"text" => $text
 	];
 
 	/*
