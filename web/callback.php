@@ -166,56 +166,61 @@ if ($type != "text") {
 	error_log ( $messageId );
 	// ↓コメ
 
+	// 画像ファイルのバイナリ取得
+	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" . $messageId . "/content" );
+	curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+	curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
+			'Content-Type: application/json; charser=UTF-8',
+			'Authorization: Bearer ' . $accessToken
+	) );
+	$result = curl_exec ( $ch );
 
+	error_log ( $result );
 
-	 // 画像ファイルのバイナリ取得
-	 $ch = curl_init ( "https://api.line.me/v2/bot/message/reply" . $messageId . "/content" );
-	 curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
-	 curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
-	 'Content-Type: application/json; charser=UTF-8',
-	 'Authorization: Bearer ' . $accessToken
-	 ) );
-	 $result = curl_exec ( $ch );
+	curl_close ( $ch );
 
+	$fp = fopen ( "'https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg'", 'wb' );
 
-	 error_log ( $result );
+	if ($fp) {
+		if (flock ( $fp, LOCK_EX )) {
+			if (fwrite ( $fp, $result ) === FALSE) {
+				error_log ( 'ファイル書き込みに失敗しました' );
+			} else {
+				error_log ( 'ファイルに書き込みました' );
+			}
+			flock ( $fp, LOCK_UN );
+		} else {
+			error_log ( 'ファイルロックに失敗しました' );
+		}
+	}
 
-	 curl_close ( $ch );
+	fclose ( $fp );
 
-	 $fp = fopen ( "'https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg'", 'wb' );
+	// ↑コメ
 
-	 if ($fp) {
-	 if (flock ( $fp, LOCK_EX )) {
-	 if (fwrite ( $fp, $result ) === FALSE) {
-	 error_log ( 'ファイル書き込みに失敗しました' );
-	 } else {
-	 error_log ( 'ファイルに書き込みました' );
-	 }
-	 flock ( $fp, LOCK_UN );
-	 } else {
-	 error_log ( 'ファイルロックに失敗しました' );
-	 }
-	 }
-
-	 fclose ( $fp );
-
-	 //↑コメ
-
-
-	// そのまま画像をオウム返しで送信
 	$response_format_text = [
-			"type" => "image",
-			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg",
-			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg"
+			$data = array (
+					'input' => array (
+							"image" => $image
+					)
+			)
 	];
-/*
-	 	 $response_format_text = [
-			"type" => "text",
-			"text" => $jsonObj
-			//"text" => $result
-	];
-*/
-	 	 $post_data = [
+
+	/*
+	 * // そのまま画像をオウム返しで送信
+	 * $response_format_text = [
+	 * "type" => "image",
+	 * "originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg",
+	 * "previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg"
+	 * ];
+	 * //エラーログの代わり
+	 * $response_format_text = [
+	 * "type" => "text",
+	 * "text" => $jsonObj
+	 * //"text" => $result
+	 * ];
+	 */
+	$post_data = [
 			"replyToken" => $replyToken,
 			"messages" => [
 					$response_format_text
@@ -237,13 +242,33 @@ if ($type != "text") {
 	curl_close ( $ch );
 	error_log ( 画像送信 );
 
+	// Visual Recognition
+	/*
+	 * $classfier = "12d0fcx34-nlc-410";
+	 * $workspace_id ="";
+	 *
+	 * $url = "https://gateway-a.watsonplatform.net/visual-recognition/api/workspaces/". $workspace_id . "";
+	 *
+	 *
+	 * $data = array (
+	 * 'input' => array (
+	 * "image" => $image
+	 * )
+	 * );
+	 *
+	 *
+	 *
+	 *
+	 */
 	exit ();
 }
+
+// Conversation用
 
 $classfier = "12d0fcx34-nlc-410";
 $workspace_id = "4c2bcc67-db84-438e-b20d-c1d76e143a68";
 
-$url = "https://gateway.watsonplatform.net/conversation/api/v1/workspaces/" . $workspace_id . "/message?version=2017-04-21";
+$url = "https://gateway-a.watsonplatform.net/visual-recognition/api";
 
 $username = "3179e86b-8590-463c-b610-c5e75af4a424";
 $password = "aeFxMqFHFRdG";
