@@ -22,6 +22,9 @@ $userID = $jsonObj->{"events"} [0]->{"source"}->{"userId"};
 $messageId = $jsonObj->{"events"} [0]->{"message"}->{"id"};
 
 error_log ( $eventType );
+error_log ( 26 );
+error_log ( $messageId );
+
 if ($eventType == "follow") {
 	$response_format_text = [
 			"type" => "template",
@@ -159,6 +162,9 @@ if ($type != "text") {
 	$replyToken = $jsonObj->{"events"} [0]->{"replyToken"};
 	$messageId = $jsonObj->{"events"} [0]->{"message"}->{"id"};
 
+	eeror_log ( 162 );
+	error_log ( $messageId );
+
 	// 画像ファイルのバイナリ取得
 	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" . $messageId . "/content" );
 	curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
@@ -172,7 +178,7 @@ if ($type != "text") {
 
 	curl_close ( $ch );
 
-	$fp = fopen ( 'test.jpg', 'wb' );
+	$fp = fopen ( "'https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg'", 'wb' );
 
 	if ($fp) {
 		if (flock ( $fp, LOCK_EX )) {
@@ -192,8 +198,8 @@ if ($type != "text") {
 	// そのまま画像をオウム返しで送信
 	$response_format_text = [
 			"type" => "image",
-			"originalContentUrl" => "file:///C:/Users/Keitaro_Nishizawa/git/tyattobot/web/test.jpg",
-			"previewImageUrl" => "file:///C:/Users/Keitaro_Nishizawa/git/tyattobot/web/test.jpg"
+			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg",
+			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg"
 	];
 
 	$post_data = [
