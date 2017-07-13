@@ -178,7 +178,8 @@ if ($type != "text") {
 	 $result = curl_exec ( $ch );
 
 	 $filename = ("gazou");
-	 file_put_contents('./C:\Users\Keitaro_Nishizawa\git\tyattobot\web/'.$filename,$result);
+	 $gazo  = ( "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg");
+	 file_put_contents('./C:\Users\Keitaro_Nishizawa\git\tyattobot\web/'.$filename,$gazo);
 
 	 error_log ( 181 );
 	 error_log ( $json_string);
