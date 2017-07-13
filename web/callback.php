@@ -177,6 +177,9 @@ if ($type != "text") {
 	 ) );
 	 $result = curl_exec ( $ch );
 
+	 $filename = ("gazou");
+	 file_put_contents('./ダウンロード/'.$filename,$result);
+
 	 error_log ( 181 );
 	 error_log ( $json_string);
 	 error_log ( 183 );
@@ -199,8 +202,8 @@ if ($type != "text") {
 	 }
 	 }
 
-
 	 fclose ( $fp );
+
 
 	 //↑コメ
 
