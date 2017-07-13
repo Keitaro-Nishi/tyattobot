@@ -177,8 +177,8 @@ if ($type != "text") {
 	 ) );
 	 $result = curl_exec ( $ch );
 
-
-	 error_log ( $result );
+	 error_log ( $jsonObj);
+	 error_log ( $ch );
 
 	 curl_close ( $ch );
 
