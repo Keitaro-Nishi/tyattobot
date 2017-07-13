@@ -177,14 +177,12 @@ if ($type != "text") {
 	 ) );
 	 $result = curl_exec ( $ch );
 
-	 $filename = ("gazou");
-	 $gazo  = ( "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg");
-	 file_put_contents('./C:\Users\Keitaro_Nishizawa\git\tyattobot\web/'.$filename,$gazo);
+	 $image_resource = imagecreatefromstring($result);
 
 	 error_log ( 181 );
 	 error_log ( $json_string);
 	 error_log ( 183 );
-	 error_log ( $result );
+	 error_log ( $image_resource );
 
 	 curl_close ( $ch );
 
@@ -192,7 +190,7 @@ if ($type != "text") {
 
 	 if ($fp) {
 	 if (flock ( $fp, LOCK_EX )) {
-	 if (fwrite ( $fp, $result ) === FALSE) {
+	 if (fwrite ( $fp, $image_resource ) === FALSE) {
 	 error_log ( 'ファイル書き込みに失敗しました' );
 	 } else {
 	 error_log ( 'ファイルに書き込みました' );
