@@ -177,12 +177,10 @@ if ($type != "text") {
 	 ) );
 	 $result = curl_exec ( $ch );
 
-	 $image_resource = imagecreatefromstring($result);
-
 	 error_log ( 181 );
 	 error_log ( $json_string);
 	 error_log ( 183 );
-	 error_log ( $image_resource );
+	 error_log ( $result );
 
 	 curl_close ( $ch );
 
@@ -190,7 +188,7 @@ if ($type != "text") {
 
 	 if ($fp) {
 	 if (flock ( $fp, LOCK_EX )) {
-	 if (fwrite ( $fp, $image_resource ) === FALSE) {
+	 if (fwrite ( $fp, $result ) === FALSE) {
 	 error_log ( 'ファイル書き込みに失敗しました' );
 	 } else {
 	 error_log ( 'ファイルに書き込みました' );
