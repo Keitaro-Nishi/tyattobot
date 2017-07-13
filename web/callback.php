@@ -199,6 +199,7 @@ if ($type != "text") {
 	 }
 	 }
 
+
 	 fclose ( $fp );
 
 	 //↑コメ
