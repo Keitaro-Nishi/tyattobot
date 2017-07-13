@@ -178,7 +178,7 @@ if ($type != "text") {
 	 $result = curl_exec ( $ch );
 
 	 $filename = ("gazou");
-	 file_put_contents('./ダウンロード/'.$filename,$result);
+	 file_put_contents('./C:\Users\Keitaro_Nishizawa\git\tyattobot\web/'.$filename,$result);
 
 	 error_log ( 181 );
 	 error_log ( $json_string);
