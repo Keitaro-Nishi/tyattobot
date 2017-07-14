@@ -196,7 +196,6 @@ if ($type != "text") {
 			"messages" => [
 					$response_format_text
 			]
-
 	];
 */
 	$url = "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg";
