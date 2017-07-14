@@ -182,15 +182,17 @@ if ($type != "text") {
 
 	curl_close ( $ch );
 
-	$image_resource = imagecreatefromstring($result);
+	$image_resource = imagecreatefromstring ($result);
 
 	// ↑コメ
-/*
+
 	// そのまま画像をオウム返しで送信
 	$response_format_text = [
 			"type" => "image",
-			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg",
-			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg"
+			//"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg",
+			//"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg"
+	"originalContentUrl" => $image_resource,
+	"previewImageUrl" => $image_resource
 	];
 
 	$post_data = [
@@ -200,7 +202,7 @@ if ($type != "text") {
 			]
 
 	];
-*/
+
 	$url = "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg";
 	$filedata = file_get_contents ( $url );
 
@@ -218,8 +220,7 @@ if ($type != "text") {
 
 	$response_format_text = [
 			"type" => "text",
-			//"text" => $resmess
-			"text" => $image_resource
+			"text" => $resmess
 	];
 
 	$post_data = [
