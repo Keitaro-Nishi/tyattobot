@@ -185,14 +185,12 @@ if ($type != "text") {
 	$image_resource = imagecreatefromstring ($result);
 
 	// ↑コメ
-
+/*
 	// そのまま画像をオウム返しで送信
 	$response_format_text = [
 			"type" => "image",
-			//"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg",
-			//"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg"
-	"originalContentUrl" => $image_resource,
-	"previewImageUrl" => $image_resource
+			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg",
+			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg"
 	];
 
 	$post_data = [
@@ -202,7 +200,7 @@ if ($type != "text") {
 			]
 
 	];
-
+*/
 	$url = "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg";
 	$filedata = file_get_contents ( $url );
 
