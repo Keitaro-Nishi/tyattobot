@@ -182,10 +182,10 @@ if ($type != "text") {
 
 	curl_close ( $ch );
 
-	$fp = fopen ( "'https://" . $_SERVER ['SERVER_NAME'] . "/test.jpg'", 'wb' );
+	$image_resource = imagecreatefromstring($result);
 
 	// ↑コメ
-
+/*
 	// そのまま画像をオウム返しで送信
 	$response_format_text = [
 			"type" => "image",
@@ -200,9 +200,8 @@ if ($type != "text") {
 			]
 
 	];
-
-	//$url = "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg";
-	$url = $result;
+*/
+	$url = "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg";
 	$filedata = file_get_contents ( $url );
 
 	$url = "https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classify?api_key=115a9e7921cf06b77e8341cbee47262ad2d0cdee&version=2016-05-20";
@@ -219,8 +218,8 @@ if ($type != "text") {
 
 	$response_format_text = [
 			"type" => "text",
-			"text" => $resmess
-
+			//"text" => $resmess
+			"text" => $image_resource
 	];
 
 	$post_data = [
