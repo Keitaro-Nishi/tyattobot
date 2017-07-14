@@ -185,7 +185,7 @@ if ($type != "text") {
 	$image_resource = imagecreatefromstring ($result);
 
 	// ↑コメ
-/*
+
 	// そのまま画像をオウム返しで送信
 	$response_format_text = [
 			"type" => "image",
@@ -200,7 +200,7 @@ if ($type != "text") {
 			]
 
 	];
-*/
+
 	$url = "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg";
 	$filedata = file_get_contents ( $url );
 
@@ -215,7 +215,7 @@ if ($type != "text") {
 	error_log ( $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["score"] );
 	error_log ( "images:" . count ( $json ["images"] ) );
 	error_log ( "images_processed:" . $json ["images_processed"] );
-
+/*
 	$response_format_text = [
 			"type" => "text",
 			"text" => $resmess
@@ -227,7 +227,7 @@ if ($type != "text") {
 					$response_format_text
 			]
 	];
-
+*/
 	$ch = curl_init ( "https://api.line.me/v2/bot/message/reply" );
 	curl_setopt ( $ch, CURLOPT_POST, true );
 	curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, 'POST' );
