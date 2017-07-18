@@ -175,7 +175,6 @@ if ($type != "text") {
 	) );
 	$result = curl_exec ( $ch );
 
-
 	error_log ( 181 );
 	error_log ( $json_string );
 	error_log ( 183 );
