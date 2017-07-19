@@ -196,15 +196,14 @@ if ($type != "text") {
 			]
 	];
 */
-	//$url = "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg";
-	$filedata = $result;
+	$url = "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg";
 
 	$url = "https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classify?api_key=115a9e7921cf06b77e8341cbee47262ad2d0cdee&version=2016-05-20";
 	$jsonString = callVisual_recognition ();
 	$json = json_decode ( $jsonString, true );
 	$class = $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["class"];
 	$score = $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["score"];
-	$resmess = $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["score"] . "の確率で「" . $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["class"] . "」です";
+	$resmess = $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["score"] . "％の確率で「" . $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["class"] . "」です";
 
 	error_log ( $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["class"] );
 	error_log ( $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["score"] );
