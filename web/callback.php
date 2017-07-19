@@ -197,6 +197,7 @@ if ($type != "text") {
 	];
 */
 	$url = "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg";
+	$filedata = file_get_contents ( $url );
 
 	$url = "https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classify?api_key=115a9e7921cf06b77e8341cbee47262ad2d0cdee&version=2016-05-20";
 	$jsonString = callVisual_recognition ();
