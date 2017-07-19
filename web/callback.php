@@ -206,7 +206,7 @@ if ($type != "text") {
 	$json = json_decode ( $jsonString, true );
 	$class = $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["class"];
 	$score = $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["score"];
-	$resmess = $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["score"*100] . "％の確率で「" . $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["class"] . "」です";
+	$resmess = $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["score"] . "％の確率で「" . $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["class"] . "」です";
 
 	error_log ( $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["class"] );
 	error_log ( $json ["images"] [0] ["classifiers"] [0] ["classes"] [0] ["score"] );
