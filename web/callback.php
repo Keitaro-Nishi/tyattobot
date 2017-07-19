@@ -195,6 +195,7 @@ if ($type != "text") {
 					$response_format_text
 			]
 	];
+
 */
 	$url = "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg";
 	$filedata = file_get_contents ( $url );
