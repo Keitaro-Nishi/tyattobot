@@ -181,24 +181,7 @@ if ($type != "text") {
 	error_log ( $result );
 
 	// ↑コメ
-/*
-	// そのまま画像をオウム返しで送信
-	$response_format_text = [
-			"type" => "image",
-			"originalContentUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg",
-			"previewImageUrl" => "https://" . $_SERVER ['SERVER_NAME'] . "/rabbit.jpg"
-	];
 
-	$post_data = [
-			"replyToken" => $replyToken,
-			"messages" => [
-					$response_format_text
-			]
-	];
-
-*/
-	//$url = "https://" . $_SERVER ['SERVER_NAME'] . "/gyosei.jpg";
-	//$filedata = file_get_contents ( $url );
 	$filedata = $result;
 
 	$url = "https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classify?api_key=115a9e7921cf06b77e8341cbee47262ad2d0cdee&version=2016-05-20";

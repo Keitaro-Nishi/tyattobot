@@ -32,5 +32,21 @@ if ($close_flag){
 }
 
 ?>
+<table width="80%" border="1">
+ <tr>
+  <th scope="col">ID</th>
+  <th scope="col">メーカー</th>
+ </tr>
+ <?php
+ while($table = mysql_fetch_assoc($recordset)) {
+ ?>
+ <tr>
+  <td><?php print(htmlspecialchars($table['id'])); ?> </td>
+  <td><?php print(htmlspecialchars($table['maker'])); ?> </td>
+ </tr>
+ <?php
+ }
+ ?>
+ </table>
 </body>
 </html>
