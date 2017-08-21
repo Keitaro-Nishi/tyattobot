@@ -34,8 +34,8 @@ if ($close_flag){
 ?>
 <table width="80%" border="1">
  <tr>
-  <th scope="col">ID</th>
-  <th scope="col">メーカー</th>
+  <th scope="col">USERID</th>
+  <th scope="col">log</th>
  </tr>
  <?php
  while($table = mysql_fetch_assoc($recordset)) {
