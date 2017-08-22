@@ -14,7 +14,7 @@ public class javaPostgre {
 			System.out.println("OK");
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("G");
+			System.out.println("NG");
 		}
 	}
 }
