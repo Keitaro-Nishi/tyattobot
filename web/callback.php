@@ -452,7 +452,7 @@ $conn = "host=ec2-54-83-26-65.compute-1.amazonaws.com dbname=d9pf8qthde7brb user
  password=ab14f9f8cbd407f8e7c7c99d3d03ac82f3c35b9d7a141615a563adeb2dd964f4";
 $link = pg_connect ( $conn );
 if (! $link) {
-	error_log ( '接続に失敗' );
+	error_log ( '455接続に失敗' );
 } else {
 	error_log ( '409接続に成功' );
 }
